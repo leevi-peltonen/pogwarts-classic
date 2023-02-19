@@ -53,7 +53,7 @@
   {
     "name": "Basic Wand",
     "description": "A magical weapon that can be used to cast spells or empower allies.",
-    "magic_damage": 12,
+    "damage": 12,
     "price": 250,
     "rarity": "common"
   },
@@ -125,7 +125,7 @@
   {
     "name": "Fine Wand",
     "description": "A magical weapon that can be used to cast spells or empower allies.",
-    "magic_damage": 17,
+    "damage": 17,
     "price": 250,
     "rarity": "uncommon"
   },
@@ -269,7 +269,7 @@
       {
         "name": "Epic Wand",
         "description": "A magical weapon that can be used to cast spells or empower allies.",
-        "magic_damage": 27,
+        "damage": 27,
         "price": 250,
         "rarity": "epic"
       },
@@ -341,7 +341,7 @@
         {
           "name": "Legendary Wand",
           "description": "A magical weapon that can be used to cast spells or empower allies.",
-          "magic_damage": 32,
+          "damage": 32,
           "price": 250,
           "rarity": "legendary"
         },

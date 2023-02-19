@@ -9,7 +9,17 @@ const Inventory = () => {
   const [render, setRender] = useState(false)
 
   const handleItemEquip = (itemToEquip) => {
+
+    if(player.equippedWeapon) {
+      player.inventory.weapons.push(player.equippedWeapon)
+      let index = player.inventory.weapons.indexOf(player.inventory.weapons.find(weapon => weapon.name === itemToEquip.name))
+      if (index !== -1) {
+        player.inventory.weapons.splice(index, 1);
+      }
+    }
     player.equippedWeapon = itemToEquip
+
+    
     setRender((prev) => !prev)
   }
 
@@ -18,14 +28,12 @@ const Inventory = () => {
     if(window.confirm('You will get '+ sellPrice + 'coins. \nAre you sure you want to sell ' + itemToSell.name + '?')) {
       player.inventory.coins += sellPrice
       let index = player.inventory.weapons.indexOf(player.inventory.weapons.find(weapon => weapon.name === itemToSell.name))
-      //player.inventory.weapons = player.inventory.weapons.filter(item => JSON.stringify(item) !== JSON.stringify(player.inventory.weapons.find(weapon => weapon.name === itemToSell.name)))
       if (index !== -1) {
         player.inventory.weapons.splice(index, 1);
       }
     }
     setRender((prev) => !prev)
   }
-//player.inventory.weapons.find(weapon => weapon.name === itemToSell.name)
   return (
     <>
       <h2>Equipped Gear</h2>

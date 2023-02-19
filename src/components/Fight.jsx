@@ -2,6 +2,7 @@ import {
   determineAmountOfEnemies,
   generateLoot,
   performAttack,
+  generateCoins
 } from "../utils/common"
 import { Button } from "@mui/material"
 import { usePlayer } from "../context/PlayerContext"
@@ -50,10 +51,22 @@ const EnemyDataDisplay = () => {
   }
 
   const handleLooting = () => {
-    const loot = generateLoot(enemy.level)
-    if(window.confirm("You found " + loot.name + "! Do you want to keep it?")) {
-      player.inventory.weapons.push(loot)
+
+    const rollForLoot = Math.random()
+    if(rollForLoot < 0.3) {
+      const loot = generateLoot(enemy.level)
+      if(window.confirm("You found " + loot.name + "! Do you want to keep it?")) {
+        player.inventory.weapons.push(loot)
+      }
     }
+    else {
+      const coins = generateCoins(enemy.level)
+      player.inventory.coins += coins
+      window.alert("You found " + coins + " coins!")
+    }
+
+
+
     resurrectEnemy()
   }
 
