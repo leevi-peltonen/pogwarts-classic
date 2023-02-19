@@ -1,0 +1,58 @@
+{
+  "enemies": [
+    {
+      "name": "Goblin",
+      "level": 1,
+      "maxHealth": 50,
+      "health": 50,
+      "attack": 10,
+      "defense": 5,
+      "isAlive": true
+    },
+    {
+      "name": "Skeleton",
+      "level": 2,
+      "maxHealth": 75,
+      "health": 75,
+      "attack": 15,
+      "defense": 10,
+      "isAlive": true
+    },
+    {
+      "name": "Orc",
+      "level": 3,
+      "maxHealth": 100,
+      "health": 100,
+      "attack": 20,
+      "defense": 15,
+      "isAlive": true
+    },
+    {
+      "name": "Giant Spider",
+      "level": 4,
+      "maxHealth": 125,
+      "health": 125,
+      "attack": 25,
+      "defense": 20,
+      "isAlive": true
+    },
+    {
+      "name": "Troll",
+      "level": 5,
+      "maxHealth": 150,
+      "health": 150,
+      "attack": 30,
+      "defense": 25,
+      "isAlive": true
+    },
+    {
+      "name": "Dragon",
+      "level": 6,
+      "health": 200,
+      "maxHealth": 200,
+      "attack": 40,
+      "defense": 30,
+      "isAlive": true
+    }
+  ]
+}

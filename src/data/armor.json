@@ -1,0 +1,57 @@
+{
+  "cloth_armor": {
+    "name": "Cloth Armor",
+    "description": "Basic armor made of cloth, offering minimal protection.",
+    "defense": 5,
+    "price": 50
+  },
+  "leather_armor": {
+    "name": "Leather Armor",
+    "description": "Armor made of leather, offering moderate protection.",
+    "defense": 10,
+    "price": 100
+  },
+  "chain_armor": {
+    "name": "Chain Armor",
+    "description": "Armor made of interlocking metal rings, offering strong protection.",
+    "defense": 15,
+    "price": 200
+  },
+  "plate_armor": {
+    "name": "Plate Armor",
+    "description": "Armor made of solid metal plates, offering the highest level of protection.",
+    "defense": 20,
+    "price": 300
+  },
+  "robe": {
+    "name": "Robe",
+    "description": "A magical garment that enhances the wearer's spellcasting abilities.",
+    "defense": 2,
+    "magic_defense": 10,
+    "price": 150
+  },
+  "shield": {
+    "name": "Shield",
+    "description": "A piece of defensive equipment that can be used to block incoming attacks.",
+    "defense": 5,
+    "price": 75
+  },
+  "chain_hood": {
+    "name": "Chain Hood",
+    "description": "A metal hood that protects the wearer's head and neck.",
+    "defense": 3,
+    "price": 50
+  },
+  "gauntlets": {
+    "name": "Gauntlets",
+    "description": "Metal gloves that provide protection for the wearer's hands and arms.",
+    "defense": 2,
+    "price": 25
+  },
+  "boots": {
+    "name": "Boots",
+    "description": "Sturdy footwear that provides protection for the wearer's feet and legs.",
+    "defense": 3,
+    "price": 30
+  }
+}

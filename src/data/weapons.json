@@ -1,0 +1,362 @@
+{
+  "common_weapons": [
+  {
+    "name": "Basic Sword",
+    "description": "A classic melee weapon, used to slash and stab enemies.",
+    "damage": 10,
+    "price": 100,
+    "rarity": "common"
+  },
+  {
+    "name": "Basic Bow",
+    "description": "A ranged weapon that uses arrows to deal damage to enemies from a distance.",
+    "damage": 8,
+    "price": 150,
+    "rarity": "common"
+  },
+  {
+    "name": "Basic Dagger",
+    "description": "A small, agile weapon that can be used for quick attacks or stealthy assassinations.",
+    "damage": 6,
+    "price": 75,
+    "rarity": "common"
+  },
+  {
+    "name": "Basic Axe",
+    "description": "A heavy, two-handed weapon that deals crushing blows to enemies.",
+    "damage": 15,
+    "price": 200,
+    "rarity": "common"
+  },
+  {
+    "name": "Basic Mace",
+    "description": "A blunt weapon that can be used to crush armor and bones.",
+    "damage": 12,
+    "price": 175,
+    "rarity": "common"
+  },
+  {
+    "name": "Basic Staff",
+    "description": "A versatile weapon that can be used for melee attacks or to cast spells.",
+    "damage": 6,
+    "magic_damage": 8,
+    "price": 200,
+    "rarity": "common"
+  },
+  {
+    "name": "Basic Spear",
+    "description": "A long, pointed weapon that can be used for thrusting attacks or to keep enemies at a distance.",
+    "damage": 10,
+    "price": 150,
+    "rarity": "common"
+  },
+  {
+    "name": "Basic Wand",
+    "description": "A magical weapon that can be used to cast spells or empower allies.",
+    "magic_damage": 12,
+    "price": 250,
+    "rarity": "common"
+  },
+  {
+    "name": "Basic Hammer",
+    "description": "A heavy weapon that deals crushing blows to enemies and can also be used to smash obstacles.",
+    "damage": 14,
+    "price": 225,
+    "rarity": "common"
+  },
+  {
+    "name": "Basic Whip",
+    "description": "A flexible weapon that can be used to trip or disarm enemies, or to reach items that are out of reach.",
+    "damage": 6,
+    "price": 100,
+    "rarity": "common"
+  }],
+  "uncommon_weapons": [
+  {
+    "name": "Fine Sword",
+    "description": "A classic melee weapon, used to slash and stab enemies.",
+    "damage": 15,
+    "price": 100,
+    "rarity": "uncommon"
+  },
+  {
+    "name": "Fine Bow",
+    "description": "A ranged weapon that uses arrows to deal damage to enemies from a distance.",
+    "damage": 13,
+    "price": 150,
+    "rarity": "uncommon"
+  },
+  {
+    "name": "Fine Dagger",
+    "description": "A small, agile weapon that can be used for quick attacks or stealthy assassinations.",
+    "damage": 11,
+    "price": 75,
+    "rarity": "uncommon"
+  },
+  {
+    "name": "Fine Axe",
+    "description": "A heavy, two-handed weapon that deals crushing blows to enemies.",
+    "damage": 20,
+    "price": 200,
+    "rarity": "uncommon"
+  },
+  {
+    "name": "Fine Mace",
+    "description": "A blunt weapon that can be used to crush armor and bones.",
+    "damage": 17,
+    "price": 175,
+    "rarity": "uncommon"
+  },
+  {
+    "name": "Fine Staff",
+    "description": "A versatile weapon that can be used for melee attacks or to cast spells.",
+    "damage": 11,
+    "magic_damage": 10,
+    "price": 200,
+    "rarity": "uncommon"
+  },
+  {
+    "name": "Fine Spear",
+    "description": "A long, pointed weapon that can be used for thrusting attacks or to keep enemies at a distance.",
+    "damage": 15,
+    "price": 150,
+    "rarity": "uncommon"
+  },
+  {
+    "name": "Fine Wand",
+    "description": "A magical weapon that can be used to cast spells or empower allies.",
+    "magic_damage": 17,
+    "price": 250,
+    "rarity": "uncommon"
+  },
+  {
+    "name": "Fine Hammer",
+    "description": "A heavy weapon that deals crushing blows to enemies and can also be used to smash obstacles.",
+    "damage": 19,
+    "price": 225,
+    "rarity": "uncommon"
+  },
+  {
+    "name": "Fine Whip",
+    "description": "A flexible weapon that can be used to trip or disarm enemies, or to reach items that are out of reach.",
+    "damage": 11,
+    "price": 100,
+    "rarity": "uncommon"
+  }],
+  "rare_weapons":[
+    {
+      "name": "Strong Sword",
+      "description": "A classic melee weapon, used to slash and stab enemies.",
+      "damage": 20,
+      "price": 100,
+      "rarity": "rare"
+    },
+    {
+      "name": "Strong Bow",
+      "description": "A ranged weapon that uses arrows to deal damage to enemies from a distance.",
+      "damage": 18,
+      "price": 150,
+      "rarity": "rare"
+    },
+    {
+      "name": "Strong Dagger",
+      "description": "A small, agile weapon that can be used for quick attacks or stealthy assassinations.",
+      "damage": 16,
+      "price": 75,
+      "rarity": "rare"
+    },
+    {
+      "name": "Strong Axe",
+      "description": "A heavy, two-handed weapon that deals crushing blows to enemies.",
+      "damage": 25,
+      "price": 200,
+      "rarity": "rare"
+    },
+    {
+      "name": "Strong Mace",
+      "description": "A blunt weapon that can be used to crush armor and bones.",
+      "damage": 22,
+      "price": 175,
+      "rarity": "rare"
+    },
+    {
+      "name": "Strong Staff",
+      "description": "A versatile weapon that can be used for melee attacks or to cast spells.",
+      "damage": 16,
+      "magic_damage": 12,
+      "price": 200,
+      "rarity": "rare"
+    },
+    {
+      "name": "Strong Spear",
+      "description": "A long, pointed weapon that can be used for thrusting attacks or to keep enemies at a distance.",
+      "damage": 20,
+      "price": 150,
+      "rarity": "rare"
+    },
+    {
+      "name": "Strong Wand",
+      "description": "A magical weapon that can be used to cast spells or empower allies.",
+      "damage": 22,
+      "price": 250,
+      "rarity": "rare"
+    },
+    {
+      "name": "Strong Hammer",
+      "description": "A heavy weapon that deals crushing blows to enemies and can also be used to smash obstacles.",
+      "damage": 24,
+      "price": 225,
+      "rarity": "rare"
+    },
+    {
+      "name": "Strong Whip",
+      "description": "A flexible weapon that can be used to trip or disarm enemies, or to reach items that are out of reach.",
+      "damage": 16,
+      "price": 100,
+      "rarity": "rare"
+    }],
+    "epic_weapons":[
+      {
+        "name": "Epic Sword",
+        "description": "A classic melee weapon, used to slash and stab enemies.",
+        "damage": 25,
+        "price": 100,
+        "rarity": "epic"
+      },
+      {
+        "name": "Epic Bow",
+        "description": "A ranged weapon that uses arrows to deal damage to enemies from a distance.",
+        "damage": 23,
+        "price": 150,
+        "rarity": "epic"
+      },
+      {
+        "name": "Epic Dagger",
+        "description": "A small, agile weapon that can be used for quick attacks or stealthy assassinations.",
+        "damage": 19,
+        "price": 75,
+        "rarity": "epic"
+      },
+      {
+        "name": "Epic Axe",
+        "description": "A heavy, two-handed weapon that deals crushing blows to enemies.",
+        "damage": 30,
+        "price": 200,
+        "rarity": "epic"
+      },
+      {
+        "name": "Epic Mace",
+        "description": "A blunt weapon that can be used to crush armor and bones.",
+        "damage": 27,
+        "price": 175,
+        "rarity": "epic"
+      },
+      {
+        "name": "Epic Staff",
+        "description": "A versatile weapon that can be used for melee attacks or to cast spells.",
+        "damage": 21,
+        "magic_damage": 14,
+        "price": 200,
+        "rarity": "epic"
+      },
+      {
+        "name": "Epic Spear",
+        "description": "A long, pointed weapon that can be used for thrusting attacks or to keep enemies at a distance.",
+        "damage": 25,
+        "price": 150,
+        "rarity": "epic"
+      },
+      {
+        "name": "Epic Wand",
+        "description": "A magical weapon that can be used to cast spells or empower allies.",
+        "magic_damage": 27,
+        "price": 250,
+        "rarity": "epic"
+      },
+      {
+        "name": "Epic Hammer",
+        "description": "A heavy weapon that deals crushing blows to enemies and can also be used to smash obstacles.",
+        "damage": 29,
+        "price": 225,
+        "rarity": "epic"
+      },
+      {
+        "name": "Epic Whip",
+        "description": "A flexible weapon that can be used to trip or disarm enemies, or to reach items that are out of reach.",
+        "damage": 21,
+        "price": 100,
+        "rarity": "epic"
+      }],
+      "legendary_weapons":[
+        {
+          "name": "Legendary Sword",
+          "description": "A classic melee weapon, used to slash and stab enemies.",
+          "damage": 30,
+          "price": 100,
+          "rarity": "legendary"
+        },
+        {
+          "name": "Legendary Bow",
+          "description": "A ranged weapon that uses arrows to deal damage to enemies from a distance.",
+          "damage": 28,
+          "price": 150,
+          "rarity": "legendary"
+        },
+        {
+          "name": "Legendary Dagger",
+          "description": "A small, agile weapon that can be used for quick attacks or stealthy assassinations.",
+          "damage": 24,
+          "price": 75,
+          "rarity": "legendary"
+        },
+        {
+          "name": "Legendary Axe",
+          "description": "A heavy, two-handed weapon that deals crushing blows to enemies.",
+          "damage": 35,
+          "price": 200,
+          "rarity": "legendary"
+        },
+        {
+          "name": "Legendary Mace",
+          "description": "A blunt weapon that can be used to crush armor and bones.",
+          "damage": 32,
+          "price": 175,
+          "rarity": "legendary"
+        },
+        {
+          "name": "Legendary Staff",
+          "description": "A versatile weapon that can be used for melee attacks or to cast spells.",
+          "damage": 26,
+          "magic_damage": 16,
+          "price": 200,
+          "rarity": "legendary"
+        },
+        {
+          "name": "Legendary Spear",
+          "description": "A long, pointed weapon that can be used for thrusting attacks or to keep enemies at a distance.",
+          "damage": 30,
+          "price": 150,
+          "rarity": "legendary"
+        },
+        {
+          "name": "Legendary Wand",
+          "description": "A magical weapon that can be used to cast spells or empower allies.",
+          "magic_damage": 32,
+          "price": 250,
+          "rarity": "legendary"
+        },
+        {
+          "name": "Legendary Hammer",
+          "description": "A heavy weapon that deals crushing blows to enemies and can also be used to smash obstacles.",
+          "damage": 34,
+          "price": 225,
+          "rarity": "legendary"
+        },
+        {
+          "name": "Legendary Whip",
+          "description": "A flexible weapon that can be used to trip or disarm enemies, or to reach items that are out of reach.",
+          "damage": 26,
+          "price": 100,
+          "rarity": "legendary"
+        }]
+}
