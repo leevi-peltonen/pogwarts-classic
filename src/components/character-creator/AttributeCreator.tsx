@@ -1,24 +1,29 @@
 import { Button, ButtonGroup, FormControl, Typography } from "@mui/material"
-import { useState } from "react"
+import React, { useState } from "react"
+import { IAttributes } from "../../models/attributes";
 import "./AttributeCreator.css"
 
-const AttributeCreator = (props) => {
-  const [pointsRemaining, setPointsRemaining] = useState(10)
+interface IAttributeCreatorProps {
+  confirmAttributes(attributes: IAttributes): void;
+}
 
-  const [attributes, setAttributes] = useState({
-    str: 1,
-    dex: 1,
-    int: 1,
+const AttributeCreator = (props: IAttributeCreatorProps): JSX.Element => {
+  
+  const [pointsRemaining, setPointsRemaining] = useState(10);
+  const [attributes, setAttributes] = useState<IAttributes>({
+    strength: 1,
+    dexterity: 1,
+    intelligence: 1,
   })
 
-  const increaseAttribute = (name, value) => {
+  const increaseAttribute = (name: string, value: number) => {
     if (pointsRemaining > 0) {
       setAttributes((prev) => ({ ...prev, [name]: value + 1 }))
       setPointsRemaining((prev) => prev - 1)
     }
   }
 
-  const decreaseAttribute = (name, value) => {
+  const decreaseAttribute = (name: string, value: number) => {
     if (value > 1) {
       setAttributes((prev) => ({ ...prev, [name]: value - 1 }))
       setPointsRemaining((prev) => prev + 1)
@@ -30,12 +35,12 @@ const AttributeCreator = (props) => {
       <p>Points remaining: {pointsRemaining}</p>
       <FormControl>
         <label>Strength</label>
-        <Typography>{attributes.str}</Typography>
+        <Typography>{attributes.strength}</Typography>
         <ButtonGroup>
           <Button
             variant="contained"
             onClick={() => {
-              decreaseAttribute("str", attributes.str)
+              decreaseAttribute("str", attributes.strength)
             }}
           >
             -
@@ -43,7 +48,7 @@ const AttributeCreator = (props) => {
           <Button
             variant="contained"
             onClick={() => {
-              increaseAttribute("str", attributes.str)
+              increaseAttribute("str", attributes.strength)
             }}
           >
             +
@@ -53,12 +58,12 @@ const AttributeCreator = (props) => {
 
       <FormControl>
         <label>Dexterity</label>
-        <Typography>{attributes.dex}</Typography>
+        <Typography>{attributes.dexterity}</Typography>
         <ButtonGroup>
           <Button
             variant="contained"
             onClick={() => {
-              decreaseAttribute("dex", attributes.dex)
+              decreaseAttribute("dex", attributes.dexterity)
             }}
           >
             -
@@ -66,7 +71,7 @@ const AttributeCreator = (props) => {
           <Button
             variant="contained"
             onClick={() => {
-              increaseAttribute("dex", attributes.dex)
+              increaseAttribute("dex", attributes.dexterity)
             }}
           >
             +
@@ -76,12 +81,12 @@ const AttributeCreator = (props) => {
 
       <FormControl>
         <label>Intelligence</label>
-        <Typography>{attributes.int}</Typography>
+        <Typography>{attributes.intelligence}</Typography>
         <ButtonGroup>
           <Button
             variant="contained"
             onClick={() => {
-              decreaseAttribute("int", attributes.int)
+              decreaseAttribute("int", attributes.intelligence)
             }}
           >
             -
@@ -89,7 +94,7 @@ const AttributeCreator = (props) => {
           <Button
             variant="contained"
             onClick={() => {
-              increaseAttribute("int", attributes.int)
+              increaseAttribute("int", attributes.intelligence)
             }}
           >
             +

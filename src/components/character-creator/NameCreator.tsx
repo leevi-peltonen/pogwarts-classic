@@ -1,9 +1,14 @@
+import React from 'react'
 import "./NameCreator.css"
 
 import { TextField, FormControl, Button } from "@mui/material"
 import { useState } from "react"
 
-const NameCreator = (props) => {
+interface INameCreatorProps {
+  confirmName: (name: string) => void;
+}
+
+export const NameCreator = (props: INameCreatorProps): JSX.Element => {
   const [name, setName] = useState("")
   return (
     <FormControl>
@@ -26,5 +31,3 @@ const NameCreator = (props) => {
     </FormControl>
   )
 }
-
-export default NameCreator

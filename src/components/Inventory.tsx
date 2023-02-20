@@ -1,9 +1,7 @@
 import { Button } from "@mui/material"
-import { useState } from "react"
-import { usePlayer } from "../context/PlayerContext"
-
+import React, { useState, useContext } from "react"
+import { PlayerContext, IPlayerContext } from "../context/PlayerContext"
 import "./Inventory.css"
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,34 +9,40 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { IWeapon } from "../models/weapon";
 
 
 const Inventory = () => {
-  const { player } = usePlayer()
-  const [render, setRender] = useState(false)
 
-  const handleItemEquip = (divToEquip) => {
+  const { player } = useContext(PlayerContext) as IPlayerContext;
+  const [ render, setRender ] = useState<boolean>(false)
 
-    if (player.equippedWeapon) {
+  const handleItemEquip = (itemToEquip: IWeapon): void => {
+
+    if (player.equippedWeapon && itemToEquip) {
       player.inventory.weapons.push(player.equippedWeapon)
-      let index = player.inventory.weapons.indexOf(player.inventory.weapons.find(weapon => weapon.name === divToEquip.name))
-      if (index !== -1) {
-        player.inventory.weapons.splice(index, 1);
+      const weaponToRemove = player.inventory.weapons.find(weapon => weapon.name === itemToEquip.name)
+      if (weaponToRemove) {
+        let index = player.inventory.weapons.indexOf(weaponToRemove)
+        if (index !== -1) {
+          player.inventory.weapons.splice(index, 1);
+        }
       }
     }
-    player.equippedWeapon = divToEquip
-
-
-    setRender((prev) => !prev)
+    player.equippedWeapon = itemToEquip
+    setRender((prev: boolean) => !prev)
   }
 
-  const handleItemSale = (divToSell) => {
-    const sellPrice = Math.floor(divToSell.price / 2)
-    if (window.confirm('You will get ' + sellPrice + 'coins. \nAre you sure you want to sell ' + divToSell.name + '?')) {
-      player.inventory.coins += sellPrice
-      let index = player.inventory.weapons.indexOf(player.inventory.weapons.find(weapon => weapon.name === divToSell.name))
-      if (index !== -1) {
-        player.inventory.weapons.splice(index, 1);
+  const handleItemSale = (itemToSell: IWeapon): void => {
+    const sellPrice = Math.floor(itemToSell.price / 2)
+    if (window.confirm('You will get ' + sellPrice + 'coins. \nAre you sure you want to sell ' + itemToSell.name + '?')) {
+      player.inventory.coins += sellPrice;
+      const weaponToRemove = player.inventory.weapons.find(weapon => weapon.name === itemToSell.name);
+      if (weaponToRemove) {
+        let index = player.inventory.weapons.indexOf(weaponToRemove)
+        if (index !== -1) {
+          player.inventory.weapons.splice(index, 1);
+        }
       }
     }
     setRender((prev) => !prev)
@@ -51,16 +55,21 @@ const Inventory = () => {
       <p><b>Coins: </b>{player.inventory.coins}</p>
       <h3>Weapons</h3>
       <InventoryGrid
-        handledivEquip={handleItemEquip}
-        handledivSale={handleItemSale}
+        handleItemEquip={() => handleItemEquip}
+        handleItemSale={() => handleItemSale}
       />
     </div>
   )
 }
 
-function InventoryGrid({ handledivEquip, handledivSale }) {
+interface IInventoryGridProps {
+  handleItemEquip: (weapon: IWeapon) => void;
+  handleItemSale: (weapon: IWeapon) => void;
+}
 
-  const { player } = usePlayer()
+function InventoryGrid(props: IInventoryGridProps) {
+
+  const { player } = useContext(PlayerContext) as IPlayerContext;
 
   return (
     <TableContainer sx={{ margin: "0 auto" }} component={Paper}>
@@ -72,8 +81,8 @@ function InventoryGrid({ handledivEquip, handledivSale }) {
             <TableCell align="right">Rarity</TableCell>
             <TableCell align="right">Price</TableCell>
             <TableCell align="right">Description</TableCell>
-            <TableCell aligh="right">Equip</TableCell>
-            <TableCell aligh="right">Sell</TableCell>
+            <TableCell align="right">Equip</TableCell>
+            <TableCell align="right">Sell</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -90,12 +99,12 @@ function InventoryGrid({ handledivEquip, handledivSale }) {
               <TableCell align="right">{weapon.price}</TableCell>
               <TableCell align="right">{weapon.description}</TableCell>
               <TableCell align="right">
-                <Button onClick={() => { handledivEquip(weapon) }}>
+                <Button onClick={() => { props.handleItemEquip(weapon) }}>
                   Equip
                 </Button>
               </TableCell>
               <TableCell align="right">
-                <Button onClick={() => { handledivSale(weapon) }}>
+                <Button onClick={() => { props.handleItemSale(weapon) }}>
                   Sell
                 </Button>
               </TableCell>

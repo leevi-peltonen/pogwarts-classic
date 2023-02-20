@@ -1,14 +1,13 @@
+import React, { useContext } from "react";
 import { Button } from "@mui/material";
-import { NavLink, useNavigate } from "react-router-dom"
-import { usePlayer } from "../../context/PlayerContext";
-
+import { useNavigate } from "react-router-dom"
 import './MainScreen.css'
+import { PlayerContext, IPlayerContext } from "../../context/PlayerContext";
 
 const MainScreen = () => {
 
   const navigate = useNavigate()
-  const {player} = usePlayer()
-
+  const { player } = useContext(PlayerContext) as IPlayerContext;
 
   if(!player) {
     return (

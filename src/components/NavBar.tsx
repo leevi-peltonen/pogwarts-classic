@@ -1,8 +1,10 @@
 import { NavLink } from "react-router-dom"
-import { usePlayer } from "../context/PlayerContext"
+import React, { useContext } from "react"
+import { PlayerContext, IPlayerContext } from "../context/PlayerContext"
 
-const NavBar = () => {
-  const { player } = usePlayer()
+const NavBar = (): JSX.Element => {
+  
+  const { player } = useContext(PlayerContext) as IPlayerContext;
 
   if (player) {
     return (
@@ -17,6 +19,8 @@ const NavBar = () => {
         </ul>
       </nav>
     )
+  } else {
+    return <></>
   }
 }
 

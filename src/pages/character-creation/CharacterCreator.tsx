@@ -1,29 +1,31 @@
-import NameCreator from "../../components/character-creator/NameCreator"
+import React, {useState, useContext} from 'react'
+import { NameCreator } from "../../components/character-creator/NameCreator"
 import AttributeCreator from "../../components/character-creator/AttributeCreator"
-
 import { useNavigate } from "react-router-dom"
-import { useState } from "react"
-import { usePlayer } from "../../context/PlayerContext"
-import StatsDisplay from "../../components/StatsDipslay"
+import { PlayerContext, IPlayerContext } from "../../context/PlayerContext";
+import { IPlayer } from '../../models/player';
+import { IAttributes } from '../../models/attributes';
+import { starterWeapon } from '../../models/weapon';
 
 const CharacterCreator = () => {
+
   const [step, setStep] = useState(1)
-  const { player, setPlayer } = usePlayer()
+  const { setPlayer } = useContext(PlayerContext) as IPlayerContext;
   const navigate = useNavigate()
 
   const finishCreation = () => {
     navigate("/")
   }
 
-  const confirmName = (name) => {
-    setPlayer((prev) => ({
+  const confirmName = (name: string) => {
+    setPlayer((prev: IPlayer) => ({
       ...prev,
       name: name,
     }))
     setStep(step + 1)
   }
 
-  const confirmAttributes = (attributes) => {
+  const confirmAttributes = (attributes: IAttributes) => {
     setPlayer((prev) => ({
       ...prev,
       attributes: attributes,
@@ -38,13 +40,7 @@ const CharacterCreator = () => {
         scrolls: [],
         coins: 0,
       },
-      equippedWeapon: {
-        name: "Basic Sword",
-        description: "A classic melee weapon, used to slash and stab enemies.",
-        damage: 10,
-        price: 100,
-        rarity: "common",
-      },
+      equippedWeapon: starterWeapon,
       equippedArmor: {},
     }))
     if (window.confirm("Are you sure these are the stats you want?")) {
