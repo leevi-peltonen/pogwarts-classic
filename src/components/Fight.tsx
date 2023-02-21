@@ -22,22 +22,24 @@ const EnemyDataDisplay = () => {
     setHealth(enemy.health);
   }
 
+  /*
   const handleLooting = () => {
 
     const rollForLoot = Math.random()
     if(rollForLoot < 0.3) {
       const loot = generateLoot(enemy.level)
       if(window.confirm("You found " + loot.name + "! Do you want to keep it?")) {
-        player.inventory.weapons.push(loot)
+        player.weapons.push(loot)
       }
     }
     else {
       const coins = generateCoins(enemy.level)
-      player.inventory.coins += coins
+      player.coins += coins
       window.alert("You found " + coins + " coins!")
     }
     resurrectEnemy();
   }
+  */
 
   const resurrectEnemy = () => {
     setEnemy((prev: IEnemy) => ({...prev, health: prev.maxHealth, isAlive: true}))
@@ -72,7 +74,7 @@ const EnemyDataDisplay = () => {
         <p>You killed {enemy.name}!</p>
         <Button
           onClick={() => {
-            handleLooting()
+            //handleLooting()
           }}
         >
           Loot the corpse!

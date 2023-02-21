@@ -1,23 +1,25 @@
 import React, { createContext, useState, ReactNode } from "react";
 import { IPlayer } from "../models/player";
-import { starterWeapon } from "../models/weapon";
-import { IInventory } from "../models/inventory";
+import { starterWeapon, IWeapon } from "../models/weapon";
 
-const defaultPlayer: IPlayer = {
-  name: "",
-  level: 1,
-  attributes: {
-    strength: 1,
-    dexterity: 1,
-    intelligence: 1,
-  },
-  health: 100,
-  damage: 1,
-  experience: 0,
-  availableAttributePoints: 10,
-  equippedWeapon: starterWeapon,
-  inventory: {} as IInventory
-}
+ const defaultPlayer: IPlayer = {
+   id: 'asd',
+   name: "",
+   level: 1,
+   attributes: {
+     strength: 1,
+     dexterity: 1,
+     intelligence: 1,
+   },
+   health: 100,
+   damage: 1,
+   experience: 0,
+   availableAttributePoints: 10,
+   equippedWeapon: starterWeapon,
+   weapons: [] as IWeapon[],
+   coins: 0,
+   highestLevelOfKilledMonsters: 1
+ }
 
 export interface IPlayerContext {
     player: IPlayer,

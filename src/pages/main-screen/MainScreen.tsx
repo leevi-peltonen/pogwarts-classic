@@ -1,8 +1,5 @@
 import React, { useContext } from "react";
-import { Button } from "@mui/material";
-import { Button, ButtonGroup, Typography } from "@mui/material";
-import { NavLink, useNavigate } from "react-router-dom"
-import { usePlayer } from "../../context/PlayerContext";
+import { Typography } from "@mui/material";
 import { getWeaponByID } from "../../api/items";
 import { useEffect } from "react";
 import './MainScreen.css'
@@ -10,22 +7,18 @@ import { PlayerContext, IPlayerContext } from "../../context/PlayerContext";
 
 const MainScreen = () => {
 
-  const {player, setPlayer} = usePlayer()
-
-  const setItems = () => {
-    if(typeof player.equippedWeapon === "string") {
-      getWeaponByID(player.equippedWeapon.toString())
-      .then(res => {
-        setPlayer({...player, equippedWeapon: res.data})
-      })
-    }
-  }
+  const { player, setPlayer } = useContext(PlayerContext) as IPlayerContext;
   
   useEffect(() => {
-    if(player) setItems()
-  }, [player])
+    if(player) {
+      getWeaponByID(player.equippedWeapon.toString())
+      .then(res => {
+        setPlayer(() => ({...player, equippedWeapon: res.data}))
+      });
+    }
+  }, [player, setPlayer])
 
-  if(!player) {
+  if(player && player.id === 'asd') {
     return (
       <>
         <h1>Welcome to Pogwarts Classic!</h1>
@@ -37,7 +30,7 @@ const MainScreen = () => {
 
   return ( 
     <>
-      <h1>Hello {player.username}! Welcome to Pogwarts Classic!</h1>
+      <h1>Hello! Welcome to Pogwarts Classic!</h1>
     </>
   )
 

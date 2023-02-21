@@ -1,5 +1,5 @@
 import { Button } from "@mui/material"
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { PlayerContext, IPlayerContext } from "../context/PlayerContext"
 import "./Inventory.css"
 import Table from '@mui/material/Table';
@@ -15,32 +15,28 @@ import { addWeaponToInventory, equipWeapon, removeWeaponFromInventory } from "..
 import { IWeapon } from "../models/weapon";
 
 const Inventory = () => {
-  const { player, setPlayer } = usePlayer()
+  const { player, setPlayer } = useContext(PlayerContext) as IPlayerContext;
   const [render, setRender] = useState(false)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    let weapons = []
+    let weapons: IWeapon[] = []
 
-    player.weapons.forEach(weapon => {
+      player.weapons.forEach(weapon => {
       if(typeof weapon === "string") {
         getWeaponByID(weapon)
         .then(res => {
           weapons.push(res.data)
         })
         .then(() => {
-          setPlayer({...player, weapons: weapons})
-        })
-        .then(() => {
-          
+          setPlayer(() => ({...player, weapons: weapons}))
         })
       }
-
     })
   }, [player.weapons, player, setPlayer])
   
 
-  const handleItemEquip = async (itemToEquip) => {
+  const handleItemEquip = async (itemToEquip: IWeapon) => {
     setLoading(true)
     /*
     Steps:
@@ -62,7 +58,6 @@ const Inventory = () => {
 
   }
 
-
   const returnEquippedWeaponToInventory = async () => {
     
     const weapon = await getEquippedWeapon(player.id)
@@ -73,35 +68,38 @@ const Inventory = () => {
     await addWeaponToInventory(player.id, weapon.data._id)
   }
   
-  const handleEquipWeapon = async (weapon) => {
-    setPlayer({...player, equippedWeapon: weapon})
-    await equipWeapon(player.id, weapon._id)
+  const handleEquipWeapon = async (weapon: IWeapon) => {
+    setPlayer(() => ({...player, equippedWeapon: weapon}))
+    await equipWeapon(player.id, weapon.id)
   }
 
-  const handleRemoveWeapon = async (weapon) => {
-    const index = player.weapons.findIndex(_wep => _wep._id === weapon._id)
+  const handleRemoveWeapon = async (weapon: IWeapon) => {
+    const index = player.weapons.findIndex(_wep => _wep.id === weapon.id)
     player.weapons.splice(index, 1)
     //setPlayer(prev => ({...prev, inventory: {weapons: , armor: prev.inventory.armor}}))
     setRender((prev) => !prev)
 
-  await removeWeaponFromInventory(player.id, weapon._id)  
-  .then(() => {
-    setLoading(false)
-  })
+    await removeWeaponFromInventory(player.id, weapon.id)  
+      .then(() => {
+        setLoading(false)
+      })
   }
 
-  const handleItemSale = async (itemToSell) => {
+  const handleItemSale = async (itemToSell: IWeapon) => {
     
     const sellPrice = Math.floor(itemToSell.price / 2)
     if (window.confirm('You will get ' + sellPrice + 'coins. \nAre you sure you want to sell ' + itemToSell.name + '?')) {
       setLoading(true)
       player.coins += sellPrice
       await updateCoins(player.id, player.coins)
-      let index = player.weapons.indexOf(player.weapons.find(weapon => weapon.name === itemToSell.name))
-      if (index !== -1) {
-        player.weapons.splice(index, 1);
+      const weaponToRemove = player.weapons.find(weapon => weapon.name === itemToSell.name)
+      if (weaponToRemove) {
+        let index = player.weapons.indexOf(weaponToRemove)
+        if (index !== -1) {
+          player.weapons.splice(index, 1);
+        }
       }
-      await removeWeaponFromInventory(player.id, itemToSell._id)
+      await removeWeaponFromInventory(player.id, itemToSell.id)
       .then(() => {
         setLoading(false)
       })
@@ -125,24 +123,29 @@ const Inventory = () => {
   )
 }
 
-function InventoryGrid({ handleItemEquip, handleItemSale }) {
-
-  const { player, setPlayer } = usePlayer()
-  const headers = ["Name", "Damage", "Rarity", "Price", "Description", "Equip", "Sell"]
-  const [isAscending, setIsAscending] = useState()
-
-
-  const handleAscendingSort = (condition) => {
-    
-      const sortedArray = player.weapons.sort((a, b) => a[condition.toLowerCase()] - b[condition.toLowerCase()])
-      setPlayer(prev => ({...prev,  weapons: sortedArray}))
-      setIsAscending(prev => !prev)
-  }
-  const handleDescendingSort = (condition) => {
-    const sortedArray = player.weapons.sort((a, b) => b[condition.toLowerCase()] - a[condition.toLowerCase()])
-    setPlayer(prev => ({...prev, weapons: sortedArray}))
-    setIsAscending(prev => !prev)
+interface IInventoryGridProps {
+  handleItemEquip: (weapon: IWeapon) => void;
+  handleItemSale: (weapon: IWeapon) => void;
 }
+
+function InventoryGrid(props: IInventoryGridProps) {
+
+  const { player, setPlayer } = useContext(PlayerContext) as IPlayerContext;
+  const headers = ["Name", "Damage", "Rarity", "Price", "Description", "Equip", "Sell"]
+  const [isAscending, setIsAscending] = useState<boolean>(true)
+
+  // const handleAscendingSort = (condition: string) => {
+    
+  //     const sortedArray = player.weapons.sort((a, b) => a[condition.toLowerCase() as keyof typeof a] as number - b[condition.toLowerCase() as keyof typeof b] as number)
+  //     setPlayer(prev => ({...prev,  weapons: sortedArray}))
+  //     setIsAscending(prev => !prev)
+  // }
+
+  // const handleDescendingSort = (condition: string) => {
+  //   const sortedArray = player.weapons.sort((a, b) => b[condition.toLowerCase()] - a[condition.toLowerCase()])
+  //   setPlayer(prev => ({...prev, weapons: sortedArray}))
+  //   setIsAscending(prev => !prev)
+  // }
   
 
   return (
@@ -161,7 +164,8 @@ function InventoryGrid({ handleItemEquip, handleItemSale }) {
             */}
             {headers.map((header, i) => {
               return (
-                <TableCell onClick={(event) => {isAscending ? handleDescendingSort(event.target.innerHTML) : handleAscendingSort(event.target.innerHTML) }} key={i} >{header}</TableCell>
+                //<TableCell onClick={(event) => {isAscending ? handleDescendingSort(event.target.innerHTML) : handleAscendingSort(event.target.innerHTML) }} key={i} >{header}</TableCell>
+                <TableCell key={i} >{header}</TableCell>
               )
             })}
           </TableRow>
@@ -180,12 +184,12 @@ function InventoryGrid({ handleItemEquip, handleItemSale }) {
               <TableCell align="right">{weapon.price}</TableCell>
               <TableCell align="right">{weapon.description}</TableCell>
               <TableCell align="right">
-                <Button onClick={() => { handleItemEquip(weapon) }}>
+                <Button onClick={() => { props.handleItemEquip(weapon) }}>
                   Equip
                 </Button>
               </TableCell>
               <TableCell align="right">
-                <Button onClick={() => { handleItemSale(weapon) }}>
+                <Button onClick={() => { props.handleItemSale(weapon) }}>
                   Sell
                 </Button>
               </TableCell>

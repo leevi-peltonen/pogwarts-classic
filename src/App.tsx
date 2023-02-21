@@ -16,7 +16,7 @@ export default function App() {
       <BrowserRouter>
         <NavBar/>
         <Routes>
-          <Route path="/" element={<MainScreen></MainScreen>}/>
+          <Route path="/" element={<MainScreen />}/>
           <Route path="/login" element={<SignIn/>}/>
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/character-creation" element={<CharacterCreator />}/>

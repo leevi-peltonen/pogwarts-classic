@@ -1,13 +1,20 @@
 import { Button, ButtonGroup, FormControl, Typography } from "@mui/material"
-import { useState } from "react"
-import { usePlayer } from "../../context/PlayerContext"
+import React, { useState } from "react"
+import { IAttributes } from "../../models/attributes";
 import "./AttributeCreator.css"
 
-const AttributeCreator = (props) => {
-  const {player} = usePlayer()
-  const [pointsRemaining, setPointsRemaining] = useState(player.availableAttributePoints)
+interface IAttributeCreatorProps {
+  confirmAttributes(attributes: IAttributes): void;
+}
 
-  const [attributes, setAttributes] = useState(player.attributes)
+const AttributeCreator = (props: IAttributeCreatorProps): JSX.Element => {
+  
+  const [pointsRemaining, setPointsRemaining] = useState(10);
+  const [attributes, setAttributes] = useState<IAttributes>({
+    strength: 1,
+    dexterity: 1,
+    intelligence: 1,
+  })
 
   const increaseAttribute = (name: string, value: number) => {
     if (pointsRemaining > 0) {

@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom"
-import { usePlayer } from "../context/PlayerContext"
 import {AppBar, Toolbar, IconButton, Typography, Stack, Button} from '@mui/material'
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import { useEffect, useState } from "react";
@@ -13,7 +12,6 @@ const NavBar = (): JSX.Element => {
 
   const navigate = useNavigate()
 
-
     return (
       <AppBar position="static">
         <Toolbar>
@@ -24,29 +22,22 @@ const NavBar = (): JSX.Element => {
             Pogwarts Classic
           </Typography>
           <Stack direction="row" spacing={2}>
-            {player ?          
+            {player && player.id === 'asd' ?          
+            <>
+              <Button variant="contained" onClick={() => navigate('/signup')}>Sign up!</Button>
+              <Button variant="contained" onClick={() => navigate('/login')}>Log in!</Button>
+            </> 
+            : 
             <>
               <Button onClick={() => navigate('/battle')} color="inherit">Battle</Button>
               <Button onClick={() => navigate('/player-inventory')} color="inherit">Inventory</Button>
               <Button onClick={() => navigate('/shop')} color="inherit">Shop</Button>
-            </> 
-            : 
-            <>
-
-              <Button variant="contained" onClick={() => navigate('/signup')}>Sign up!</Button>
-              
-              <Button variant="contained" onClick={() => navigate('/login')}>Log in!</Button>
-
             </>
             }
           </Stack>
         </Toolbar>
       </AppBar>
     )
-  } else {
-    return <></>
-  }
 }
-
 
 export default NavBar

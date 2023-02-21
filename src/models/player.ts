@@ -1,8 +1,8 @@
 import { IAttributes } from "./attributes"
 import { IWeapon } from "./weapon";
-import { IInventory } from "./inventory";
 
 export interface IPlayer {
+    id: string;
     name: string;
     level: number;
     attributes: IAttributes;
@@ -11,5 +11,7 @@ export interface IPlayer {
     experience: number;
     availableAttributePoints: number;
     equippedWeapon: IWeapon;
-    inventory: IInventory;
+    weapons: IWeapon[];
+    coins: number;
+    highestLevelOfKilledMonsters: number;
 };

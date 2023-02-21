@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,63 +13,69 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { createUser, getUserByName } from '../../api/login';
-import { usePlayer } from '../../context/PlayerContext';
+import { PlayerContext, IPlayerContext } from '../../context/PlayerContext';
 import { useNavigate } from 'react-router-dom';
+import { IUserRegister } from '../../models/userRegister';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit">
-        Pogwarts
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+// function Copyright(props) {
+//   return (
+//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
+//       {'Copyright © '}
+//       <Link color="inherit">
+//         Pogwarts
+//       </Link>{' '}
+//       {new Date().getFullYear()}
+//       {'.'}
+//     </Typography>
+//   );
+// }
 
 const theme = createTheme();
 
 export default function SignUp() {
 
-  const {player, setPlayer} = usePlayer()
+  const { player, setPlayer } = useContext(PlayerContext) as IPlayerContext;
 
   const navigate = useNavigate()
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const temp = new FormData(event.currentTarget);
-    const data = {
-      username: temp.get('username'),
-      password: temp.get('password'),
-      repeatPassword: temp.get('repeat-password')
-    };
+    let user: IUserRegister = {} as IUserRegister;
+    if (temp.get('username') !== null) {
+       user = {
+         username: temp.get('username') as string,
+         password: temp.get('password') as string,
+         repeatPassword: temp.get('repeat-password') as string
+       };
+
+    }
+    
     // Check for matching passwords
-    if(data.password !== data.repeatPassword) {
+    if(user.password !== user.repeatPassword) {
       window.alert('Passwords do not match!')
       return
     }
 
     // Check if username exists
     
-    checkUsername(data)
+    checkUsername(user)
   };
 
-const checkUsername = (data) => {
-  getUserByName(data.username)
+const checkUsername = (user: IUserRegister) => {
+  getUserByName(user.username)
   .then(res => {
     if(res.data.length > 0) {
       window.alert('Account already exists!')
     }
     else {
-      createAccount(data)
+      createAccount(user)
     }
   })
 }
   
-const createAccount = (data) => {
-  createUser(data)
+const createAccount = (user: IUserRegister) => {
+  createUser(user)
   .then(res => {
     setPlayer(res.data)
     navigate('/character-creation')
@@ -155,7 +161,7 @@ const createAccount = (data) => {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        {/* <Copyright sx={{ mt: 5 }} /> */}
       </Container>
     </ThemeProvider>
   );

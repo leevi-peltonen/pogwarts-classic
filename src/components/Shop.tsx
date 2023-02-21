@@ -1,36 +1,38 @@
-import { useState, useEffect } from 'react'
-import { usePlayer } from '../context/PlayerContext'
-import { generateShopItems } from '../utils/common'
+import React, { useState, useEffect, useContext } from 'react'
+import { IPlayerContext, PlayerContext } from '../context/PlayerContext'
+//import { generateShopItems } from '../utils/common'
 import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Button, Paper } from '@mui/material'
+import { IWeapon } from '../models/weapon'
 
 
 const Shop = () => {
 
-  const {player} = usePlayer()
+  const { player, setPlayer } = useContext(PlayerContext) as IPlayerContext;
 
-  const [shopItems, setShopItems] = useState([])
+  const [shopItems, setShopItems] = useState<IWeapon[]>([])
 
-  
-
+  /*
   useEffect(() => {
     setShopItems(generateShopItems(player.highestLevelOfKilledMonsters))
   }, [player.highestLevelOfKilledMonsters])
+  */
 
-
-  const handleItemPurchase = (item) => {
+  const handleItemPurchase = (item: IWeapon) => {
 
     if(player.coins >= item.price) {
-      let index = shopItems.indexOf(shopItems.find(weapon => weapon.name === item.name))
-      if (index !== -1) {
-        setShopItems(shopItems.filter(_item => _item.name !== item.name))
-        player.inventory.weapons.push(item)
-        player.coins -= item.price
+      const weaponToPurchase = shopItems.find(weapon => weapon.name === item.name)
+      if (weaponToPurchase) {
+        let index = shopItems.indexOf(weaponToPurchase)
+        if (index !== -1) {
+          setShopItems(shopItems.filter(_item => _item.name !== item.name))
+          player.weapons.push(item)
+          player.coins -= item.price
+        }
       }
     } else {
       window.alert('You dont have enough coins!')
     }
   }
-
 
   return (
     <>
@@ -44,7 +46,7 @@ const Shop = () => {
             <TableCell align="right">Rarity</TableCell>
             <TableCell align="right">Price</TableCell>
             <TableCell align="right">Description</TableCell>
-            <TableCell aligh="right">Buy</TableCell>
+            <TableCell align="right">Buy</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
