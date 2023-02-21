@@ -1,9 +1,12 @@
+import React, { useContext } from "react";
+import { Button } from "@mui/material";
 import { Button, ButtonGroup, Typography } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom"
 import { usePlayer } from "../../context/PlayerContext";
 import { getWeaponByID } from "../../api/items";
 import { useEffect } from "react";
 import './MainScreen.css'
+import { PlayerContext, IPlayerContext } from "../../context/PlayerContext";
 
 const MainScreen = () => {
 

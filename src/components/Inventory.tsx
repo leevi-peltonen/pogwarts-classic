@@ -1,9 +1,7 @@
 import { Button } from "@mui/material"
-import { useState, useEffect } from "react"
-import { usePlayer } from "../context/PlayerContext"
-
+import React, { useState, useContext } from "react"
+import { PlayerContext, IPlayerContext } from "../context/PlayerContext"
 import "./Inventory.css"
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,6 +12,7 @@ import Paper from '@mui/material/Paper';
 import { getWeaponByID } from "../api/items";
 import { getEquippedWeapon, updateCoins } from "../api/user";
 import { addWeaponToInventory, equipWeapon, removeWeaponFromInventory } from "../api/inventory";
+import { IWeapon } from "../models/weapon";
 
 const Inventory = () => {
   const { player, setPlayer } = usePlayer()

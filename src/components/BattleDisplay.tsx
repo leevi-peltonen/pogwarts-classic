@@ -1,18 +1,18 @@
 import { Button, ButtonGroup } from "@mui/material"
-import { useState } from "react"
+import React, { useContext } from "react"
 import Fight from "./Fight"
 import Enemies from "../data/enemies.json"
-import { generateEnemy } from "../utils/common"
-import { useEnemy } from "../context/EnemyContext"
+import { EnemyContext, IEnemyContext } from "../context/EnemyContext"
 
 const BattleDisplay = () => {
 
-  
-  const {enemy, setEnemy} = useEnemy()
+  const {enemy, setEnemy} = useContext(EnemyContext) as IEnemyContext;
 
-  const handleFight = (difficulty) => {
-    const _enemy = Enemies.enemies.find(enemy => enemy.level === difficulty)
-    setEnemy(_enemy)
+  const handleFight = (difficulty: number) => {
+    const _enemy = Enemies.enemies.find(enemy => enemy.level === difficulty);
+    if (_enemy) {
+      setEnemy(() => _enemy);
+    }
   }
 
   return (
@@ -26,7 +26,7 @@ const BattleDisplay = () => {
         ))}
       </ButtonGroup>
 
-      {enemy && <Fight enemy={enemy} />
+      {enemy && <Fight />
       }
     </>
   )

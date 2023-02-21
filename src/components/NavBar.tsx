@@ -3,9 +3,13 @@ import { usePlayer } from "../context/PlayerContext"
 import {AppBar, Toolbar, IconButton, Typography, Stack, Button} from '@mui/material'
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom"
+import React, { useContext } from "react"
+import { PlayerContext, IPlayerContext } from "../context/PlayerContext"
 
-const NavBar = () => {
-  const { player } = usePlayer()
+const NavBar = (): JSX.Element => {
+  
+  const { player } = useContext(PlayerContext) as IPlayerContext;
 
   const navigate = useNavigate()
 
@@ -39,6 +43,9 @@ const NavBar = () => {
         </Toolbar>
       </AppBar>
     )
+  } else {
+    return <></>
+  }
 }
 
 

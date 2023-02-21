@@ -1,4 +1,5 @@
 import "./App.css"
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import CharacterCreator from "./pages/character-creation/CharacterCreator"
 import MainScreen from "./pages/main-screen/MainScreen"
@@ -9,10 +10,7 @@ import Shop from "./components/Shop"
 import SignIn from "./pages/login/SignIn"
 import SignUp from "./pages/login/SignUp"
 
-function App() {
-
-
-
+export default function App() {
   return (
     <div className="App">
       <BrowserRouter>
@@ -30,5 +28,3 @@ function App() {
     </div>
   )
 }
-
-export default App

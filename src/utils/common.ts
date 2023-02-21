@@ -1,11 +1,17 @@
+import Enemies from "../data/enemies.json"
+import Weapons from "../data/weapons.json"
+import { IPlayer } from "../models/player"
+import { IEnemy } from "../models/enemy"
+import { IWeapon } from "../models/weapon"
 
-import Enemies from '../data/enemies.json'
-import Weapons from '../data/weapons.json'
-
-export const performSkillCheck = (attributeLevel, difficultyNumber, diceSize) => {
-  let successes = 0;
-  for(let i = 0; i < attributeLevel; i++) {
-    let result = Math.floor(Math.random()*diceSize) + 1
+export const performSkillCheck = (
+  attributeLevel: number,
+  difficultyNumber: number,
+  diceSize: number
+) => {
+  let successes = 0
+  for (let i = 0; i < attributeLevel; i++) {
+    let result = Math.floor(Math.random() * diceSize) + 1
     if (result >= difficultyNumber) {
       successes++
     }
@@ -15,15 +21,14 @@ export const performSkillCheck = (attributeLevel, difficultyNumber, diceSize) =>
 
 
 // calculateDamage
-
-export const calculateDamage = (damageAmount, target) => {
+export const calculateDamage = (damageAmount: number, target: IEnemy) => {
   target.health -= damageAmount
   if(target.health <= 0) {
     return {...target, isAlive: false}
   }
   return target
 }
-const getRarity = (difficultyFactor) => {
+const getRarity = (difficultyFactor: number) => {
   const rarityRoll = Math.random()
 
   if (rarityRoll < 0.5 / difficultyFactor) {
@@ -40,14 +45,15 @@ const getRarity = (difficultyFactor) => {
 }
 
 // generateLoot
-
-export const generateLoot = (difficulty) => {
-  console.log('You killed a level ' + difficulty + ' enemy!')
+export const generateLoot = (difficulty: number) => {
+  console.log("You killed a level " + difficulty + " enemy!")
   const rarity = getRarity(difficulty)
-  const loot = Weapons[rarity + '_weapons'][Math.floor(Math.random()*Weapons[rarity + '_weapons'].length)]
+  const weaponList = rarity + "_weapons";
+  const index = Math.floor(Math.random() * Weapons[weaponList as keyof typeof Weapons].length);
+  const loot = Weapons[weaponList as keyof typeof Weapons][index];
+  return loot;
   return loot
 }
-
 export const generateCoins = (difficulty) => {
   const amount = Math.floor(Math.random()*10)*difficulty
   return amount
@@ -79,38 +85,28 @@ export const generateShopItems = (progressFactor) => {
   else if(progressFactor <=5) {
     return getItems('legendary')
   }
+  return Math.floor(Math.random() * 10) * difficulty
 }
 
 
 
-// levelUp
-
-export const levelUp = (character) => {
-  character.level += 1;
-  character.health += 10;
-  character.availableAttributePoints += 1;
+export const levelUp = (character: IPlayer) => {
+  character.level += 1
+  character.health += 10
+  character.availableAttributePoints += 1
+  character.availableAttributePoints += 1
 }
-
-// checkInventory
-
-export const checkInventory = (character) => {
-  character.inventory.forEach((item) => {
-    console.log(item)
-  })
-}
-
 
 // generateEnemy
-// when more enemies are generated to data/enemies.json -> return enemies randomly from specific difficulty tier
-export const generateEnemy = (difficulty) => {
-  const enemies = Enemies.enemies.filter(enemy => enemy.level === difficulty)
+export const generateEnemy = (difficulty: number) => {
+  const enemies = Enemies.enemies.filter((enemy) => enemy.level === difficulty)
+  const enemies = Enemies.enemies.filter((enemy) => enemy.level === difficulty)
   return enemies
 }
 
 
 
 // determineAmountOfEnemies
-
 export const determineAmountOfEnemies = () => {
   const randomNumber = Math.random();
   
@@ -128,11 +124,14 @@ export const determineAmountOfEnemies = () => {
 }
 
 
-// performAttack
-
-export const performAttack = (attacker, target, attackItem) => {
-  const damageAmount = (attacker.attributes.str + attacker.damage + attackItem.damage) - target.defense
-  if(damageAmount <= 0) {
+export const performAttack = (attacker: IPlayer, target: IEnemy, attackItem: IWeapon): IEnemy => {
+  const damageAmount =
+    attacker.attributes.strength +
+    attacker.damage +
+    attackItem.damage -
+    target.defense
+  if (damageAmount <= 0) {
+  if (damageAmount <= 0) {
     console.log(`${target.name} took no damage! It has too much defense!`)
     return target
   } else {
@@ -140,18 +139,18 @@ export const performAttack = (attacker, target, attackItem) => {
     return calculateDamage(damageAmount, target)
   } 
 }
+
 // Level Curve
-// Find required XP for X level
-const getLevelExperience = (level) => {
-  return Math.floor(100 * Math.pow(1.1, level));
+const getLevelExperience = (level: number) => {
+  return Math.floor(100 * Math.pow(1.1, level))
+  return Math.floor(100 * Math.pow(1.1, level))
 }
 
 
 // checkForLevelUp
-// Required after each action that gives XP
-
-export const checkForLevelUp = (player, earnedXP) => {
-  if(player.experience + earnedXP >= getLevelExperience(player.level+1)) {
+export const checkForLevelUp = (player: IPlayer, earnedXP: number) => {
+  if (player.experience + earnedXP >= getLevelExperience(player.level + 1)) {
+  if (player.experience + earnedXP >= getLevelExperience(player.level + 1)) {
     levelUp(player)
   }
 }
