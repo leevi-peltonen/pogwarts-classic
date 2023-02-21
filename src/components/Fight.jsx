@@ -53,7 +53,7 @@ const EnemyDataDisplay = () => {
   const handleLooting = () => {
 
     const rollForLoot = Math.random()
-    if(rollForLoot < 0.3) {
+    if(rollForLoot < 2) { // DEFAULT 0.3
       const loot = generateLoot(enemy.level)
       if(window.confirm("You found " + loot.name + "! Do you want to keep it?")) {
         player.inventory.weapons.push(loot)
@@ -65,7 +65,7 @@ const EnemyDataDisplay = () => {
       window.alert("You found " + coins + " coins!")
     }
 
-
+    player.highestLevelOfKilledMonsters = Math.max(enemy.level, player.highestLevelOfKilledMonsters)
 
     resurrectEnemy()
   }

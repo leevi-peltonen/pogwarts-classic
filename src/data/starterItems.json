@@ -1,0 +1,17 @@
+{
+  "starter_weapon": 
+  {
+    "name": "Basic Dagger",
+    "description": "A small, agile weapon that can be used for quick attacks or stealthy assassinations.",
+    "damage": 6,
+    "price": 75,
+    "rarity": "common"
+  },
+  "starter_armor": 
+  {
+    "name": "Cloth Armor",
+    "description": "Basic armor made of cloth, offering minimal protection.",
+    "defense": 5,
+    "price": 50
+  }
+}
