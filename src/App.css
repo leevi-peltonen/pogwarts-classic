@@ -1,5 +1,11 @@
 .App {
   text-align: center;
+
+  -moz-user-select:none; /* firefox */
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE*/
+  user-select: none; /* Standard syntax */
+
 }
 
 .App-logo {
@@ -36,3 +42,4 @@
     transform: rotate(360deg);
   }
 }
+

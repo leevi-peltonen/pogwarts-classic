@@ -4,7 +4,6 @@ import { IEnemy } from "../models/enemy";
 const defaultEnemy: IEnemy = {
     name: "",
     level: 1,
-    maxHealth: 50,
     health: 50,
     attack: 10,
     defense: 5,

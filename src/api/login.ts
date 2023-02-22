@@ -1,15 +1,16 @@
 import axios from "axios"
-import starter_items from '../data/starterItems.json'
+import { ILogin } from "../models/login"
+import { IUserRegister } from "../models/userRegister"
 
 const URL = process.env.REACT_APP_API_URL + "/users"
 
 
-export const getUserByName = async (username) => {
+export const getUserByName = async (username: string) => {
   return await axios.get(URL + '/' + username)
 }
 
 
-export const login = async (data) => {
+export const login = async (data: ILogin) => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -18,7 +19,7 @@ export const login = async (data) => {
   return await axios.post(URL+'/login', data, config)
 }
 
-export const createUser = async (data) => {
+export const createUser = async (data: ILogin) => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -26,7 +27,8 @@ export const createUser = async (data) => {
   }
 
   const fullData = {
-    ...data, 
+    username: data.username,
+    password: data.password, 
     coins: 0, 
     attributes: {str: 1, dex: 1, int: 1},
     weapons: [],

@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
-import { Typography } from "@mui/material";
+import { Box } from '@mui/material'
 import { getWeaponByID } from "../../api/items";
 import { useEffect } from "react";
 import './MainScreen.css'
 import { PlayerContext, IPlayerContext } from "../../context/PlayerContext";
+import Introduction from "../../components/main-screen/Introduction";
 
 const MainScreen = () => {
 
   const { player, setPlayer } = useContext(PlayerContext) as IPlayerContext;
-  
+  /*
   useEffect(() => {
     if(player) {
       getWeaponByID(player.equippedWeapon.toString())
@@ -16,15 +17,16 @@ const MainScreen = () => {
         setPlayer(() => ({...player, equippedWeapon: res.data}))
       });
     }
-  }, [player, setPlayer])
+  }, [player, setPlayer])*/
 
   if(player && player.id === 'asd') {
     return (
-      <>
-        <h1>Welcome to Pogwarts Classic!</h1>
-        <Typography>Please login or signup to start your adventure!</Typography>
-        <p>Info placeholders</p>
-      </>
+      <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center">
+        <Introduction gameName="Pogwarts Classic" gameWorldName="Poglands" />
+      </Box>
     )
   }
 

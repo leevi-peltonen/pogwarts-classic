@@ -1,5 +1,5 @@
 export interface IUserRegister {
-    username: FormDataEntryValue;
-    password: FormDataEntryValue;
-    repeatPassword: FormDataEntryValue;
+    username: string;
+    password: string;
+    repeatPassword: string;
 };

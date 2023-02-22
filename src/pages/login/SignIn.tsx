@@ -14,7 +14,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { getUserByName, login } from '../../api/login';
 import { PlayerContext, IPlayerContext } from '../../context/PlayerContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
+import { ILogin } from '../../models/login';
 
 // function Copyright(props) {
 //   return (
@@ -37,12 +38,26 @@ export default function SignIn() {
   const navigate = useNavigate()
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    /*
     const temp = new FormData(event.currentTarget);
     const data = {
       username: temp.get('username'),
       password: temp.get('password'),
     }
-    login(data)
+    */
+
+    const data = new FormData(event.currentTarget)
+    const dataPairs = Array.from(data.entries())
+    const user: ILogin = {} as ILogin
+    for(let pair of dataPairs) {
+      if(pair[0] === "username") {
+        user.username = pair[1] as string
+      }
+      if(pair[0] === "password") {
+        user.password = pair[1] as string
+      }
+    }
+    login(user)
     .then(res => {
       console.log(res.data)
       setPlayer(res.data.user)
@@ -102,18 +117,13 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Login
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <NavLink to="/signup">
                   {"Don't have an account? Sign Up"}
-                </Link>
+                </NavLink>
               </Grid>
             </Grid>
           </Box>

@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { createUser, getUserByName } from '../../api/login';
 import { PlayerContext, IPlayerContext } from '../../context/PlayerContext';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { IUserRegister } from '../../models/userRegister';
 
 // function Copyright(props) {
@@ -40,6 +40,7 @@ export default function SignUp() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    /*
     const temp = new FormData(event.currentTarget);
     let user: IUserRegister = {} as IUserRegister;
     if (temp.get('username') !== null) {
@@ -50,7 +51,23 @@ export default function SignUp() {
        };
 
     }
-    
+    */
+
+    const data = new FormData(event.currentTarget)
+    const dataPairs = Array.from(data.entries())
+    const user: IUserRegister = {} as IUserRegister
+    for(let pair of dataPairs) {
+      if(pair[0] === "username") {
+        user.username = pair[1] as string
+      }
+      if(pair[0] === "password") {
+        user.password = pair[1] as string
+      }
+      if(pair[0] === "repeat-password") {
+        user.repeatPassword = pair[1] as string
+      }
+    }
+
     // Check for matching passwords
     if(user.password !== user.repeatPassword) {
       window.alert('Passwords do not match!')
@@ -137,12 +154,7 @@ const createAccount = (user: IUserRegister) => {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
+
             </Grid>
             <Button
               type="submit"
@@ -154,9 +166,9 @@ const createAccount = (user: IUserRegister) => {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <NavLink to="/login">
                   Already have an account? Sign in
-                </Link>
+                </NavLink>
               </Grid>
             </Grid>
           </Box>

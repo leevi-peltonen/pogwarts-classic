@@ -1,10 +1,11 @@
-import { Button, ButtonGroup, FormControl, Typography } from "@mui/material"
-import React, { useState } from "react"
+import { Button, ButtonGroup, FormControl, Typography, Stack, Box } from "@mui/material"
+import React, { useState, useEffect } from "react"
 import { IAttributes } from "../../models/attributes";
 import "./AttributeCreator.css"
 
 interface IAttributeCreatorProps {
-  confirmAttributes(attributes: IAttributes): void;
+  handleSetPointsRemaining: Function
+  handleAttributes: Function
 }
 
 const AttributeCreator = (props: IAttributeCreatorProps): JSX.Element => {
@@ -15,101 +16,67 @@ const AttributeCreator = (props: IAttributeCreatorProps): JSX.Element => {
     dexterity: 1,
     intelligence: 1,
   })
+  const ATTRIBUTE_HEADERS = ["Strength", "Dexterity", "Intelligence"]
 
   const increaseAttribute = (name: string, value: number) => {
-    if (pointsRemaining > 0) {
-      setAttributes((prev) => ({ ...prev, [name]: value + 1 }))
-      setPointsRemaining((prev) => prev - 1)
-    }
+    setAttributes((prev) => ({...prev, [name.toLowerCase()]: value + 1}))
+    setPointsRemaining((prev) => prev - 1)
   }
 
   const decreaseAttribute = (name: string, value: number) => {
-    if (value > 1) {
-      setAttributes((prev) => ({ ...prev, [name]: value - 1 }))
+      setAttributes((prev) => ({ ...prev, [name.toLowerCase()]: value - 1 }))
       setPointsRemaining((prev) => prev + 1)
-    }
   }
 
+  useEffect(() => {
+    props.handleSetPointsRemaining(pointsRemaining)
+  }, [pointsRemaining, props])
+
+  useEffect(() => {
+    props.handleAttributes(attributes)
+  }, [attributes, props])
+
+
   return (
-    <>
-      <p>Points remaining: {pointsRemaining}</p>
-      <FormControl>
-        <label>Strength</label>
-        <Typography>{attributes.strength}</Typography>
-        <ButtonGroup>
-          <Button
-            variant="contained"
-            onClick={() => {
-              decreaseAttribute("str", attributes.strength)
-            }}
-          >
-            -
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => {
-              increaseAttribute("str", attributes.strength)
-            }}
-          >
-            +
-          </Button>
-        </ButtonGroup>
-      </FormControl>
-
-      <FormControl>
-        <label>Dexterity</label>
-        <Typography>{attributes.dexterity}</Typography>
-        <ButtonGroup>
-          <Button
-            variant="contained"
-            onClick={() => {
-              decreaseAttribute("dex", attributes.dexterity)
-            }}
-          >
-            -
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => {
-              increaseAttribute("dex", attributes.dexterity)
-            }}
-          >
-            +
-          </Button>
-        </ButtonGroup>
-      </FormControl>
-
-      <FormControl>
-        <label>Intelligence</label>
-        <Typography>{attributes.intelligence}</Typography>
-        <ButtonGroup>
-          <Button
-            variant="contained"
-            onClick={() => {
-              decreaseAttribute("int", attributes.intelligence)
-            }}
-          >
-            -
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => {
-              increaseAttribute("int", attributes.intelligence)
-            }}
-          >
-            +
-          </Button>
-        </ButtonGroup>
-        <Button
-        variant="contained"
-        onClick={() => {
-          props.confirmAttributes(attributes)
-        }}
+    <Box sx={{ width:"500px", height:"300px" ,border: 1, borderColor: 'divider' }} 
+    >
+      <Typography variant="h5" >Set attributes</Typography>
+      <Typography>Points remaining: {pointsRemaining}</Typography>
+      <Box 
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
       >
-        Next
-      </Button>
-      </FormControl>
-    </>
+      <Stack spacing={2}>
+      {ATTRIBUTE_HEADERS.map((attribute, i) => {
+        return(
+          <FormControl key={i}>
+            <Typography>{attribute}: {attributes[attribute.toLowerCase() as keyof typeof attributes]}</Typography>
+            <ButtonGroup>
+              <Button 
+                variant="contained" 
+                onClick={() => {decreaseAttribute(attribute, attributes[attribute.toLowerCase() as keyof typeof attributes])}} 
+                disabled={attributes[attribute.toLowerCase() as keyof typeof attributes] <= 1} 
+                size="small"
+                >
+                  -
+              </Button>
+              <Button 
+                variant="contained" 
+                onClick={() => {increaseAttribute(attribute, attributes[attribute.toLowerCase() as keyof typeof attributes])}} 
+                disabled={pointsRemaining === 0} 
+                size="small"
+                >
+                  +
+              </Button>
+            </ButtonGroup>
+          </FormControl>
+        )
+      })}
+      </Stack>
+      </Box>
+      
+    </Box>
   )
 }
 
