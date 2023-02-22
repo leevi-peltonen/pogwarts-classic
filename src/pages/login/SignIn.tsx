@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, Dispatch, SetStateAction, ChangeEvent } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { getUserByName, login } from '../../api/login';
 //import { PlayerContext, IPlayerContext } from '../../context/PlayerContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { IPlayer } from "../../models/player";
 
 // function Copyright(props) {
@@ -38,16 +38,17 @@ interface ISignInProps {
   handleLogin: (event: React.FormEvent<HTMLFormElement>) => void
   username: string;
   password: string;
-  setUsername: () => void;
-  setPassword: () => void;
+  setUsername: Dispatch<SetStateAction<string>>;
+  setPassword: Dispatch<SetStateAction<string>>;
 }
 
 export default function SignIn(props: ISignInProps) {
 
   const navigate = useNavigate()
+  /*
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    /*
+    
     const temp = new FormData(event.currentTarget);
     const data = {
       username: temp.get('username'),
@@ -61,7 +62,7 @@ export default function SignIn(props: ISignInProps) {
       navigate('/')
     })
   };
- 
+  */
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -90,6 +91,8 @@ export default function SignIn(props: ISignInProps) {
               name="username"
               autoComplete="username"
               autoFocus
+              value={props.username}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {props.setUsername(event.target.value)}}
             />
             <TextField
               margin="normal"
@@ -100,6 +103,8 @@ export default function SignIn(props: ISignInProps) {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={props.password}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {props.setPassword(event.target.value)}}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

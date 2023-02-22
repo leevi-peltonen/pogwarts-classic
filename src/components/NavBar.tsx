@@ -1,18 +1,15 @@
 import { useNavigate } from "react-router-dom"
 import {AppBar, Toolbar, IconButton, Typography, Stack, Button, ThemeProvider, createTheme } from '@mui/material'
-
+import Link from "@mui/material/Link";
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import React, { useContext } from "react"
 import { IPlayer } from "../models/player";
-//import { PlayerContext, IPlayerContext } from "../context/PlayerContext"
 
 interface INavBarProps {
   player: IPlayer,
   setPlayer: (cb: (player: IPlayer) => IPlayer) => void,
   handleLogout: (event: React.MouseEvent<HTMLElement>) => void
 }
-import { PlayerContext, IPlayerContext } from "../context/PlayerContext"
-import Link from "@mui/material/Link";
 
 const NavBar = (props: INavBarProps): JSX.Element => {
   
@@ -25,8 +22,6 @@ const NavBar = (props: INavBarProps): JSX.Element => {
       mode: 'dark',
     },
   });
-  
-
 
     return (
       <ThemeProvider theme={darkTheme}>
@@ -35,24 +30,25 @@ const NavBar = (props: INavBarProps): JSX.Element => {
             <IconButton size='large' edge='start' color='inherit' aria-label='logo'>
               <AutoFixHighIcon/>
             </IconButton>
-            
-              <Typography variant='h4' component='div' sx={{flexGrow: 1}}>
-                <Link underline="none" color="inherit" href="/">Pogwarts Classic</Link>
-              </Typography>
+
+            <Typography variant='h4' component='div' sx={{flexGrow: 1}}>
+              <Link underline="none" color="inherit" href="/">Pogwarts Classic</Link>
+            </Typography>
             
             <Stack direction="row" spacing={2}>
-              {player && player.id === 'asd' ?          
-              <>
-                <Button color="inherit" onClick={() => navigate('/signup')}>Sign up</Button>
-                <Button  color="inherit" onClick={() => navigate('/login')}>Login</Button>
-              </> 
-              : 
+              {props.player.id ?
               <>
                 <Button onClick={() => navigate('/quests')} color="inherit">Quests</Button>
                 <Button onClick={() => navigate('/contracts')} color="inherit">Contracts</Button>
                 <Button onClick={() => navigate('/battle')} color="inherit">Battle</Button>
                 <Button onClick={() => navigate('/player-inventory')} color="inherit">Inventory</Button>
                 <Button onClick={() => navigate('/shop')} color="inherit">Shop</Button>
+                <Button onClick={props.handleLogout} color="inherit">Sign out</Button>
+              </> 
+              : 
+              <>
+                <Button color="inherit" onClick={() => navigate('/signup')}>Sign up</Button>
+                <Button  color="inherit" onClick={() => navigate('/login')}>Login</Button>
               </>
               }
             </Stack>

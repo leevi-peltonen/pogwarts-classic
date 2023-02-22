@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 //import PlayerProvider from './context/PlayerContext';
 import EnemyProvider from './context/EnemyContext';
+import { BrowserRouter } from 'react-router-dom';
 
 const rootElement = document.getElementById('root');
 
@@ -17,9 +18,9 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <EnemyProvider>
-      {/* <PlayerProvider> */}
+      <BrowserRouter>
         <App />
-      {/* </PlayerProvider> */}
+      </BrowserRouter>
     </EnemyProvider>
   </React.StrictMode>
 );

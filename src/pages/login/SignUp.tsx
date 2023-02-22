@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { createUser, getUserByName } from '../../api/login';
 //import { PlayerContext, IPlayerContext } from '../../context/PlayerContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { IUserRegister } from '../../models/userRegister';
 import { IPlayer } from '../../models/player';
 
@@ -98,9 +98,7 @@ const checkUsername = (user: IUserRegister) => {
 const createAccount = (user: IUserRegister) => {
   createUser(user)
   .then(res => {
-    props.setPlayer(res.data)
     navigate('/character-creation')
-    window.alert('Account created successfully!')
   })
 }
 

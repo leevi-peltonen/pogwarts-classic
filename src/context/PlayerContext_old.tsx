@@ -4,7 +4,7 @@ import { starterWeapon, IWeapon } from "../models/weapon";
 
  const defaultPlayer: IPlayer = {
    id: 'asd',
-   name: "",
+   username: "",
    level: 1,
    attributes: {
      strength: 1,

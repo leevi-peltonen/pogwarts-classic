@@ -1,17 +1,11 @@
 import { Button, Stack, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { IEnemy } from '../models/enemy'
+import { IPlayer } from '../models/player'
 
 interface IFightProps {
   player: IPlayer,
   setPlayer: (cb: (player: IPlayer) => IPlayer) => void
-}
-
-const Fight = (props: IFightProps) => {
-  return (
-    <EnemyDataDisplay player={props.player} setPlayer={props.setPlayer} />
-  )
-interface IFightProps {
   enemy: IEnemy
 }
 

@@ -1,6 +1,6 @@
 import "./App.css"
 import React, {useState, useEffect} from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { BrowserRouter, useNavigate, Route, Routes } from "react-router-dom"
 import CharacterCreator from "./pages/character-creation/CharacterCreator"
 import MainScreen from "./pages/main-screen/MainScreen"
 import Inventory from "./components/Inventory"
@@ -23,12 +23,16 @@ export default function App() {
   const [password, setPassword] = useState<string>('')
   const [newUser, setNewUser] = useState<string>('')
   const [newPassword, setNewPassword] = useState<string>('')
+  const [token, setToken] = useState<string>('')
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const loggedPlayerJSON = window.localStorage.getItem('loggedPlayer');
     if (loggedPlayerJSON) {
       const loggedPlayer = JSON.parse(loggedPlayerJSON);
-      setPlayer(loggedPlayer);
+      console.log("haloo",loggedPlayer)
+      setPlayer(loggedPlayer.user);
     }
   }, [])
 
@@ -39,7 +43,10 @@ export default function App() {
       password: password
     };
     const returnedUser = await login(user);
-    window.localStorage.setItem("loggedPlayer", JSON.stringify(returnedUser));
+    console.log(returnedUser)
+    window.localStorage.setItem("loggedPlayer", JSON.stringify(returnedUser.data));
+    setPlayer(returnedUser.data.user);
+    navigate('/');
   }
 
   const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
@@ -49,26 +56,32 @@ export default function App() {
   }
 
   return (
-    <div className="App">
-      <BrowserRouter>
+      <div className="App">
         <NavBar player={player} setPlayer={setPlayer} handleLogout={handleLogout} />
         <Routes>
-          {player ? (
+          {player.id ? (
             <>
-            <Route path="/" element={<MainScreen player={player} setPlayer={setPlayer} />}/>
-            <Route path="/player-inventory" element={<Inventory player={player} setPlayer={setPlayer} />}/>
-            <Route path="/battle"element={<BattleDisplay player={player} setPlayer={setPlayer} />} />
-            <Route path="shop" element={<Shop player={player} setPlayer={setPlayer} />}/>
+              <Route path="/" element={<MainScreen player={player} setPlayer={setPlayer} />}/>
+              <Route path="/player-inventory" element={<Inventory player={player} setPlayer={setPlayer} />}/>
+              <Route path="/battle"element={<BattleDisplay player={player} setPlayer={setPlayer} />} />
+              <Route path="/shop" element={<Shop player={player} setPlayer={setPlayer} />}/>
+              <Route path="/quests" element={<Quests />} />
+              <Route path="/contracts" element={<Contracts />} />
             </>
           )
           :
           (
           <>
-            <Route path="/" element={
+            <Route path="/" element={<MainScreen player={player} setPlayer={setPlayer} />}/>
+            <Route path="/login" element={
               <SignIn
                 player={player}
                 setPlayer={setPlayer}
                 handleLogin={handleLogin}
+                username={username}
+                setUsername={setUsername}
+                password={password}
+                setPassword={setPassword}
                 
               />
             }
@@ -78,7 +91,6 @@ export default function App() {
           </>
           )}
         </Routes>
-      </BrowserRouter>
-    </div>
+      </div>
   )
 }
