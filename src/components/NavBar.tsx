@@ -3,13 +3,20 @@ import {AppBar, Toolbar, IconButton, Typography, Stack, Button, ThemeProvider, c
 
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import React, { useContext } from "react"
+import { IPlayer } from "../models/player";
+//import { PlayerContext, IPlayerContext } from "../context/PlayerContext"
+
+interface INavBarProps {
+  player: IPlayer,
+  setPlayer: (cb: (player: IPlayer) => IPlayer) => void,
+  handleLogout: (event: React.MouseEvent<HTMLElement>) => void
+}
 import { PlayerContext, IPlayerContext } from "../context/PlayerContext"
 import Link from "@mui/material/Link";
 
-
-const NavBar = (): JSX.Element => {
+const NavBar = (props: INavBarProps): JSX.Element => {
   
-  const { player } = useContext(PlayerContext) as IPlayerContext;
+  //const { player } = useContext(PlayerContext) as IPlayerContext;
 
   const navigate = useNavigate()
 

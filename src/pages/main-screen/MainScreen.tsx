@@ -1,25 +1,22 @@
+import React from "react";
+import { Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { Box } from '@mui/material'
 import { getWeaponByID } from "../../api/items";
 import { useEffect } from "react";
 import './MainScreen.css'
+//import { PlayerContext, IPlayerContext } from "../../context/PlayerContext";
+import { IPlayer } from "../../models/player";
 import { PlayerContext, IPlayerContext } from "../../context/PlayerContext";
 import Introduction from "../../components/main-screen/Introduction";
 
-const MainScreen = () => {
+interface IMainScreenProps {
+  player: IPlayer,
+  setPlayer: (cb: (player: IPlayer) => IPlayer) => void
+}
 
-  const { player, setPlayer } = useContext(PlayerContext) as IPlayerContext;
-  /*
-  useEffect(() => {
-    if(player) {
-      getWeaponByID(player.equippedWeapon.toString())
-      .then(res => {
-        setPlayer(() => ({...player, equippedWeapon: res.data}))
-      });
-    }
-  }, [player, setPlayer])*/
+const MainScreen = (props: IMainScreenProps) => {
 
-  if(player && player.id === 'asd') {
     return (
       <Box
       display="flex"

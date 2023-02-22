@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import PlayerProvider from './context/PlayerContext';
+//import PlayerProvider from './context/PlayerContext';
 import EnemyProvider from './context/EnemyContext';
 
 const rootElement = document.getElementById('root');
@@ -17,9 +17,9 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <EnemyProvider>
-      <PlayerProvider>
+      {/* <PlayerProvider> */}
         <App />
-      </PlayerProvider>
+      {/* </PlayerProvider> */}
     </EnemyProvider>
   </React.StrictMode>
 );
