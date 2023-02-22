@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, Dispatch, SetStateAction, ChangeEvent } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,9 +13,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { getUserByName, login } from '../../api/login';
-import { PlayerContext, IPlayerContext } from '../../context/PlayerContext';
+//import { PlayerContext, IPlayerContext } from '../../context/PlayerContext';
 import { useNavigate, NavLink } from 'react-router-dom';
-import { ILogin } from '../../models/login';
+import { IPlayer } from "../../models/player";
 
 // function Copyright(props) {
 //   return (
@@ -32,42 +32,37 @@ import { ILogin } from '../../models/login';
 
 const theme = createTheme();
 
-export default function SignIn() {
+interface ISignInProps {
+  player: IPlayer,
+  setPlayer: (cb: (player: IPlayer) => IPlayer) => void,
+  handleLogin: (event: React.FormEvent<HTMLFormElement>) => void
+  username: string;
+  password: string;
+  setUsername: Dispatch<SetStateAction<string>>;
+  setPassword: Dispatch<SetStateAction<string>>;
+}
 
-  const { player, setPlayer } = useContext(PlayerContext) as IPlayerContext;
+export default function SignIn(props: ISignInProps) {
+
   const navigate = useNavigate()
+  /*
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    /*
+    
     const temp = new FormData(event.currentTarget);
     const data = {
       username: temp.get('username'),
       password: temp.get('password'),
     }
-    */
-
-    const data = new FormData(event.currentTarget)
-    const dataPairs = Array.from(data.entries())
-    const user: ILogin = {} as ILogin
-    for(let pair of dataPairs) {
-      if(pair[0] === "username") {
-        user.username = pair[1] as string
-      }
-      if(pair[0] === "password") {
-        user.password = pair[1] as string
-      }
-    }
-    login(user)
+    login(data)
     .then(res => {
       console.log(res.data)
-      setPlayer(res.data.user)
+      window.localStorage.setItem('loggedPlayer', JSON.stringify(res.data.user))
+      props.setPlayer(res.data.user)
       navigate('/')
     })
   };
-
-
-
- 
+  */
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -86,7 +81,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={props.handleLogin} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -96,6 +91,8 @@ export default function SignIn() {
               name="username"
               autoComplete="username"
               autoFocus
+              value={props.username}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {props.setUsername(event.target.value)}}
             />
             <TextField
               margin="normal"
@@ -106,6 +103,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={props.password}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {props.setPassword(event.target.value)}}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

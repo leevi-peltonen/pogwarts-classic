@@ -1,6 +1,6 @@
 import { Button } from "@mui/material"
 import React, { useState, useContext, useEffect } from "react"
-import { PlayerContext, IPlayerContext } from "../context/PlayerContext"
+//import { PlayerContext, IPlayerContext } from "../context/PlayerContext"
 import "./Inventory.css"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,9 +13,18 @@ import { getWeaponByID } from "../api/items";
 import { getEquippedWeapon, updateCoins } from "../api/user";
 import { addWeaponToInventory, equipWeapon, removeWeaponFromInventory } from "../api/inventory";
 import { IWeapon } from "../models/weapon";
+import { IPlayer } from "../models/player";
 
-const Inventory = () => {
-  const { player, setPlayer } = useContext(PlayerContext) as IPlayerContext;
+interface IInventoryProps {
+  player: IPlayer,
+  setPlayer: (cb: (player: IPlayer) => IPlayer) => void
+}
+
+const Inventory = (props: IInventoryProps) => {
+
+  const player = props.player;
+  const setPlayer = props.setPlayer;
+  //const { player, setPlayer } = useContext(PlayerContext) as IPlayerContext;
   const [render, setRender] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -117,6 +126,8 @@ const Inventory = () => {
       {loading ? <p>Loading...</p> : <InventoryGrid
         handleItemEquip={handleItemEquip}
         handleItemSale={handleItemSale}
+        player={player}
+        setPlayer={setPlayer}
       />}
 
     </div>
@@ -126,13 +137,14 @@ const Inventory = () => {
 interface IInventoryGridProps {
   handleItemEquip: (weapon: IWeapon) => void;
   handleItemSale: (weapon: IWeapon) => void;
+  player: IPlayer;
+  setPlayer: (cb: (player: IPlayer) => IPlayer) => void;
 }
 
 function InventoryGrid(props: IInventoryGridProps) {
 
-  const { player, setPlayer } = useContext(PlayerContext) as IPlayerContext;
   const headers = ["Name", "Damage", "Rarity", "Price", "Description", "Equip", "Sell"]
-  const [isAscending, setIsAscending] = useState<boolean>(true)
+  //const [isAscending, setIsAscending] = useState<boolean>(true)
 
   // const handleAscendingSort = (condition: string) => {
     
@@ -171,7 +183,7 @@ function InventoryGrid(props: IInventoryGridProps) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {player.weapons.map((weapon, i) => (
+          {props.player.weapons.map((weapon, i) => (
             <TableRow
               key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

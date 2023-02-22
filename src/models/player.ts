@@ -3,7 +3,7 @@ import { IWeapon } from "./weapon";
 
 export interface IPlayer {
     id: string;
-    name: string;
+    username: string;
     level: number;
     attributes: IAttributes;
     health: number;

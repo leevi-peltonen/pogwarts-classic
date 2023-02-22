@@ -1,6 +1,7 @@
 import { Button, Typography, Box } from "@mui/material"
 import React, { useState } from "react"
 import { IEnemy } from "../models/enemy"
+import { IPlayer } from "../models/player";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,13 +22,12 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Fight from "./Fight";
 
-interface IEnemyDialogProps {
-  enemy: IEnemy
+interface IBattleDisplayProps {
+  player: IPlayer,
+  setPlayer: (cb: (player: IPlayer) => IPlayer) => void,
 }
 
-
-
-const BattleDisplay = () => {
+const BattleDisplay = (props: IBattleDisplayProps) => {
 
   const [enemy, setEnemy] = useState<IEnemy | null>()
 
@@ -68,11 +68,6 @@ const BattleDisplay = () => {
     }
   ]
 
-  const openFightScreen = (enemy: IEnemy) => {
-
-  }
-
-
   return (
     <>
       <TableContainer sx={{ maxWidth: 800, margin: "0 auto" }} component={Paper}>
@@ -99,7 +94,7 @@ const BattleDisplay = () => {
                     <TableCell align="right">{enemy.attack}</TableCell>
                     <TableCell align="right">{enemy.defense}</TableCell>
                     <TableCell align="right">
-                      <EnemyDialog enemy={enemy} />
+                      <EnemyDialog enemy={enemy} player={props.player} setPlayer={props.setPlayer} />
                     </TableCell>
                   </TableRow>
                 )
@@ -111,11 +106,6 @@ const BattleDisplay = () => {
   )
 }
 
-
-
-
-
-
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -125,9 +115,13 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 })
 
+interface IEnemyDialogProps {
+  enemy: IEnemy;
+  player: IPlayer;
+  setPlayer: (cb: (player: IPlayer) => IPlayer) => void;
+}
 
-
- function EnemyDialog(props: IEnemyDialogProps) {
+function EnemyDialog(props: IEnemyDialogProps) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -185,7 +179,7 @@ const Transition = React.forwardRef(function Transition(
         display="flex"
         justifyContent="center"
         alignItems="center">
-          <Fight enemy={props.enemy} />
+          <Fight enemy={props.enemy} player={props.player} setPlayer={props.setPlayer} />
       </Box>
       </Dialog>
     </div>

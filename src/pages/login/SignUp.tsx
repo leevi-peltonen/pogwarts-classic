@@ -13,9 +13,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { createUser, getUserByName } from '../../api/login';
-import { PlayerContext, IPlayerContext } from '../../context/PlayerContext';
-import { NavLink, useNavigate } from 'react-router-dom';
+//import { PlayerContext, IPlayerContext } from '../../context/PlayerContext';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { IUserRegister } from '../../models/userRegister';
+import { IPlayer } from '../../models/player';
 
 // function Copyright(props) {
 //   return (
@@ -32,9 +33,12 @@ import { IUserRegister } from '../../models/userRegister';
 
 const theme = createTheme();
 
-export default function SignUp() {
+interface ISignUpProps {
+  player: IPlayer,
+  setPlayer: (cb: (player: IPlayer) => IPlayer) => void
+}
 
-  const { player, setPlayer } = useContext(PlayerContext) as IPlayerContext;
+export default function SignUp(props: ISignUpProps) {
 
   const navigate = useNavigate()
 
@@ -94,9 +98,7 @@ const checkUsername = (user: IUserRegister) => {
 const createAccount = (user: IUserRegister) => {
   createUser(user)
   .then(res => {
-    setPlayer(res.data)
     navigate('/character-creation')
-    window.alert('Account created successfully!')
   })
 }
 
