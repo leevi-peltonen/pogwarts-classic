@@ -35,7 +35,7 @@ export const createUser = async (data: ILogin) => {
     armor: [],
     health: 100,
     availableAttributePoints: 6,
-    experiencePoints: 0,
+    experience: 0,
     level: 1,
     equippedWeapon: {
       _id: "63f4c6726b4f216722ac6ce8",

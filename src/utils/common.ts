@@ -66,10 +66,11 @@ export const performSkillCheck = (
 }
 
 // increase player level by one
-export const levelUp = (character: IPlayer) => {
-  character.level += 1
-  character.health += 10
-  character.availableAttributePoints += 1
+export const levelUp = (player: IPlayer) => {
+  player.level += 1
+  player.health += 10
+  player.availableAttributePoints += 1
+  player.experience = 0
 }
 
 
@@ -79,10 +80,17 @@ const getLevelExperience = (level: number) => {
 }
 
 
-// check if player reached next level
-export const checkForLevelUp = (player: IPlayer, earnedXP: number) => {
-  if (player.experience + earnedXP >= getLevelExperience(player.level + 1)) {
+// give player XP and check for level up
+export const earnXPandCheckForLevelUp = (player: IPlayer, earnedXP: number) => {
+  //DEBUG:
+  player.experience += 1000
+  //NO-DEBUG:
+  //player.experience += earnedXP
+  const nextLevelXP = getLevelExperience(player.level + 1)
+  console.log(`Next level at ${nextLevelXP} XP`)
+  if(player.experience >= nextLevelXP) {
     levelUp(player)
+    
   }
 }
 

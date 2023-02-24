@@ -18,6 +18,7 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Fight from "./Fight";
 import { getAllEnemies } from "../../api/enemy";
+import { levelUp } from "../../utils/common";
 
 interface IBattleDisplayProps {
   player: IPlayer,
@@ -27,13 +28,17 @@ interface IBattleDisplayProps {
 const BattleDisplay = (props: IBattleDisplayProps) => {
 
   const [enemies, setEnemies] = useState<IEnemy[]>()
+  const [levelChange, setLevelChange] = useState(false)
 
   useEffect(() => {
     getAllEnemies()
     .then(res => {
       setEnemies(res.data.sort((a: IEnemy,b: IEnemy) =>  a.level - b.level)) //Gets enemeies from response and sorts ascending by level
     })
-  }, [])
+    .then(() => {
+      setEnemies(prev => prev?.filter(enemy => enemy.level <= props.player.level)) //filter out enemies that are too high level for player
+    })
+  }, [props.player.level, levelChange])
 
   const TABLE_HEADERS = ["Name", "Level", "Health", "Attack", "Defense", "Fight"]
 
@@ -63,7 +68,7 @@ const BattleDisplay = (props: IBattleDisplayProps) => {
                     <TableCell align="right">{enemy.attack}</TableCell>
                     <TableCell align="right">{enemy.defense}</TableCell>
                     <TableCell align="right">
-                      <EnemyDialog enemy={enemy} player={props.player} setPlayer={props.setPlayer} />
+                      <EnemyDialog setLevelChange={setLevelChange} enemy={enemy} player={props.player} setPlayer={props.setPlayer} />
                     </TableCell>
                   </TableRow>
                 )
@@ -91,6 +96,7 @@ interface IEnemyDialogProps {
   enemy: IEnemy;
   player: IPlayer;
   setPlayer: (cb: (player: IPlayer) => IPlayer) => void;
+  setLevelChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function EnemyDialog(props: IEnemyDialogProps) {
@@ -136,7 +142,7 @@ function EnemyDialog(props: IEnemyDialogProps) {
         alignItems="center"
         sx={{marginTop: "100px"}}
         >
-          <Fight enemy={props.enemy} player={props.player} setPlayer={props.setPlayer} />
+          <Fight setLevelChange={props.setLevelChange} handleClose={handleClose} enemy={props.enemy} player={props.player} setPlayer={props.setPlayer} />
       </Box>
       </Dialog>
     </div>

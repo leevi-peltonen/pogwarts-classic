@@ -1,23 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { IPlayer } from '../../models/player'
 import { IEnemy } from '../../models/enemy'
 import { Paper, Stack, Typography, Box, Button } from '@mui/material'
 
-import { generateCoins } from '../../utils/common'
+
+import { generateCoins, earnXPandCheckForLevelUp } from '../../utils/common'
 import { updateCoins } from '../../api/user'
 
 interface ILootProps {
   player: IPlayer,
   setPlayer: (cb: (player: IPlayer) => IPlayer) => void
-  enemy: IEnemy
+  enemy: IEnemy,
+  handleClose: () => void
 }
 
 const Loot = (props: ILootProps) => {
+  /*
+  useEffect(() => {
+    earnXPandCheckForLevelUp(props.player, props.enemy.level * 5)
+    console.log('Currrent XP', props.player.experience)
+    console.log('Current level', props.player.level)
+  }, [])
+  */
   return (
     <Box>
       <Typography>You killed {props.enemy.name}</Typography>
       <Stack spacing={4}>
         <LootBox coins={generateCoins(props.enemy.level)} player={props.player} setPlayer={props.setPlayer} />
+        <Button variant="contained" onClick={props.handleClose}>Close</Button>
       </Stack>
     </Box>
   )
