@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { IPlayer } from '../models/player'
-import { IEnemy } from '../models/enemy'
+import { IPlayer } from '../../models/player'
+import { IEnemy } from '../../models/enemy'
 import { Paper, Stack, Typography, Box, Button } from '@mui/material'
 
-import { generateCoins } from '../utils/common'
-import { updateCoins } from '../api/user'
+import { generateCoins } from '../../utils/common'
+import { updateCoins } from '../../api/user'
 
 interface ILootProps {
   player: IPlayer,
@@ -12,14 +12,11 @@ interface ILootProps {
   enemy: IEnemy
 }
 
-
-
-
 const Loot = (props: ILootProps) => {
   return (
     <Box>
       <Typography>You killed {props.enemy.name}</Typography>
-      <Stack spacing={4} direction="row">
+      <Stack spacing={4}>
         <LootBox coins={generateCoins(props.enemy.level)} player={props.player} setPlayer={props.setPlayer} />
       </Stack>
     </Box>

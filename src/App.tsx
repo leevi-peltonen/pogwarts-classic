@@ -3,10 +3,10 @@ import React, {useState, useEffect} from "react";
 import { BrowserRouter, useNavigate, Route, Routes } from "react-router-dom"
 import CharacterCreator from "./pages/character-creation/CharacterCreator"
 import MainScreen from "./pages/main-screen/MainScreen"
-import Inventory from "./components/Inventory"
-import BattleDisplay from "./components/BattleDisplay"
+import Inventory from "./components/inventory/Inventory"
+import BattleDisplay from "./components/battle/BattleDisplay"
 import NavBar from "./components/NavBar"
-import Shop from "./components/Shop"
+import Shop from "./components/shop/Shop"
 import SignIn from "./pages/login/SignIn"
 import SignUp from "./pages/login/SignUp"
 import Quests from "./pages/Quests/Quests";

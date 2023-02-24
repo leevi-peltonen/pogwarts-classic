@@ -9,11 +9,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { getWeaponByID } from "../api/items";
-import { getEquippedWeapon, updateCoins } from "../api/user";
-import { addWeaponToInventory, equipWeapon, removeWeaponFromInventory } from "../api/inventory";
-import { IWeapon } from "../models/weapon";
-import { IPlayer } from "../models/player";
+import { getWeaponByID } from "../../api/items";
+import { getEquippedWeapon, updateCoins } from "../../api/user";
+import { addWeaponToInventory, equipWeapon, removeWeaponFromInventory } from "../../api/inventory";
+import { IWeapon } from "../../models/weapon";
+import { IPlayer } from "../../models/player";
 
 interface IInventoryProps {
   player: IPlayer,

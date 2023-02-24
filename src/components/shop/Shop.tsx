@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react'
 //import { IPlayerContext, PlayerContext } from '../context/PlayerContext'
 //import { generateShopItems } from '../utils/common'
 import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Button, Paper } from '@mui/material'
-import { IWeapon } from '../models/weapon'
-import { IPlayer } from '../models/player'
+import { IWeapon } from '../../models/weapon'
+import { IPlayer } from '../../models/player'
 
 interface IShopProps {
   player: IPlayer,

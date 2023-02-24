@@ -1,8 +1,7 @@
 import { Button, Stack, Typography } from '@mui/material'
 import React, { useState, useEffect } from 'react'
-import { IEnemy } from '../models/enemy'
-import { IPlayer } from '../models/player'
-import { calculateDamage } from '../utils/common'
+import { IEnemy } from '../../models/enemy'
+import { IPlayer } from '../../models/player'
 import Loot from './Loot'
 
 interface IFightProps {

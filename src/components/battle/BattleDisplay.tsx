@@ -1,7 +1,7 @@
 import { Button, Typography, Box } from "@mui/material"
 import React, { useState, useEffect } from "react"
-import { IEnemy } from "../models/enemy"
-import { IPlayer } from "../models/player";
+import { IEnemy } from "../../models/enemy"
+import { IPlayer } from "../../models/player";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,10 +10,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -21,7 +17,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Fight from "./Fight";
-import { getAllEnemies } from "../api/enemy";
+import { getAllEnemies } from "../../api/enemy";
 
 interface IBattleDisplayProps {
   player: IPlayer,
@@ -134,20 +130,6 @@ function EnemyDialog(props: IEnemyDialogProps) {
             </Typography>
           </Toolbar>
         </AppBar>
-        {/*
-        <List>
-          <ListItem>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItem>
-          <Divider />
-          <ListItem>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
-            />
-          </ListItem>
-        </List>
-      */}
       <Box 
         display="flex"
         justifyContent="center"
