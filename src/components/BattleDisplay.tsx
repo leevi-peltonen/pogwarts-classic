@@ -156,9 +156,6 @@ function EnemyDialog(props: IEnemyDialogProps) {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               {props.enemy.name}, Level {props.enemy.level}
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              Exit
-            </Button>
           </Toolbar>
         </AppBar>
         {/*
@@ -178,7 +175,9 @@ function EnemyDialog(props: IEnemyDialogProps) {
       <Box 
         display="flex"
         justifyContent="center"
-        alignItems="center">
+        alignItems="center"
+        sx={{marginTop: "100px"}}
+        >
           <Fight enemy={props.enemy} player={props.player} setPlayer={props.setPlayer} />
       </Box>
       </Dialog>

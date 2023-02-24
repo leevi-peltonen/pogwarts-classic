@@ -38,11 +38,11 @@ export const createUser = async (data: ILogin) => {
     experiencePoints: 0,
     level: 1,
     equippedWeapon: {
-      _id: "63f26a76d1a4b4aecd598965",
-      name: "Basic Dagger",
-      description: "A small, agile weapon that can be used for quick attacks or stealthy assassinations.",
-      damage: 6,
-      price: 75,
+      _id: "63f4c6726b4f216722ac6ce8",
+      name: "Basic Sword",
+      description: "A classic melee weapon, used to slash and stab enemies.",
+      damage: 10,
+      price: 100,
       rarity: "common"
     },
     equippedArmor: {

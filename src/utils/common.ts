@@ -1,13 +1,15 @@
 
 import Weapons from "../data/weapons.json"
+import { IEnemy } from "../models/enemy";
 import { IPlayer } from "../models/player"
+import { IWeapon } from "../models/weapon";
 
-///////////////////////COMBAT////////////////////////////
+///////////////////////COMBAT//////////////////////////
 // calculateDamage
 export const calculateDamage = (attackRating: number, targetDefenseRating: number): number => {
   const hitChance = 1 - targetDefenseRating / 200;
-  const damage = attackRating * hitChance * (0.5 + Math.random() * 0.1);
-  return damage;
+  const damage = attackRating * hitChance * (0.5 + Math.random());
+  return Math.floor(damage);
 }
 
 //////////////////////LOOT////////////////////////////
@@ -30,14 +32,13 @@ const getRarity = (difficultyFactor: number) => {
 }
 
 //  loot generation 
-export const generateLoot = (difficulty: number) => {
-  console.log("You killed a level " + difficulty + " enemy!")
-  const rarity = getRarity(difficulty)
-  const weaponList = rarity + "_weapons";
-  const index = Math.floor(Math.random() * Weapons[weaponList as keyof typeof Weapons].length);
-  const loot = Weapons[weaponList as keyof typeof Weapons][index];
-  return loot;
+/*
+export const generateLoot = (enemy: IEnemy): IWeapon => {
+
+  
+
 }
+*/
 
 // generate random amount of coins based on difficulty
 export const generateCoins = (difficulty: number) => {

@@ -1,5 +1,5 @@
 export interface IAttributes {
-    strength: number;
-    dexterity: number;
-    intelligence: number;
+    str: number;
+    dex: number;
+    int: number;
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getWeaponByID } from '../../api/items'
+import { getWeaponByName } from '../../api/items'
 import { IWeapon } from '../../models/weapon'
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -16,9 +16,9 @@ const WeaponSelection = (props: IWeaponSelectionProps) => {
   }, [])
 
   const getStarterWeapons = async () => {
-    const responseSword = await getWeaponByID('63f4c6726b4f216722ac6ce8')
-    const responseStaff = await getWeaponByID('63f4c6dd0e036e03802534aa')
-    const responseBow = await getWeaponByID('63f4c6dd0e036e03802534c2')
+    const responseSword = await getWeaponByName('Basic Sword')
+    const responseStaff = await getWeaponByName('Basic Staff')
+    const responseBow = await getWeaponByName('Basic Bow')
     setStarterWeapons(() => [responseSword.data, responseStaff.data, responseBow.data])
   }
 

@@ -87,7 +87,7 @@ export default function App() {
             }
             />
             <Route path="/signup" element={<SignUp player={player} setPlayer={setPlayer}/>}/>
-            <Route path="/character-creation" element={<CharacterCreator />}/>
+            <Route path="/character-creation" element={<CharacterCreator player={player} setPlayer={setPlayer} />}/>
           </>
           )}
         </Routes>

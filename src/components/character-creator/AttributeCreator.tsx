@@ -12,9 +12,9 @@ const AttributeCreator = (props: IAttributeCreatorProps): JSX.Element => {
   
   const [pointsRemaining, setPointsRemaining] = useState(10);
   const [attributes, setAttributes] = useState<IAttributes>({
-    strength: 1,
-    dexterity: 1,
-    intelligence: 1,
+    str: 1,
+    dex: 1,
+    int: 1,
   })
   const ATTRIBUTE_HEADERS = ["Strength", "Dexterity", "Intelligence"]
 

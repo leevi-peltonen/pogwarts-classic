@@ -7,9 +7,9 @@ import { starterWeapon, IWeapon } from "../models/weapon";
    username: "",
    level: 1,
    attributes: {
-     strength: 1,
-     dexterity: 1,
-     intelligence: 1,
+     str: 1,
+     dex: 1,
+     int: 1,
    },
    health: 100,
    damage: 1,

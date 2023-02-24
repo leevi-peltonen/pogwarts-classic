@@ -22,6 +22,7 @@ const NavBar = (props: INavBarProps): JSX.Element => {
       mode: 'dark',
     },
   });
+  
 
     return (
       <ThemeProvider theme={darkTheme}>
