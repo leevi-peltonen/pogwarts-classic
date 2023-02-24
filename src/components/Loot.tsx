@@ -4,6 +4,7 @@ import { IEnemy } from '../models/enemy'
 import { Paper, Stack, Typography, Box, Button } from '@mui/material'
 
 import { generateCoins } from '../utils/common'
+import { updateCoins } from '../api/user'
 
 interface ILootProps {
   player: IPlayer,
@@ -41,6 +42,7 @@ const LootBox = (props: ILootBoxProps) => {
   const handlePickUpItem = () => {
     props.setPlayer(prev => ({...prev, coins: prev.coins += coins}))
     setIsPickedUp(true)
+    updateCoins(props.player.id, props.player.coins)
   }
 
   
