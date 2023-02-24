@@ -10,3 +10,7 @@ export const getEnemyByID = async (enemyId: string) => {
 export const getEnemyByName = async (name: string) => {
   return await axios.post(URL + 'name', {name: name})
 }
+
+export const getAllEnemies = async () => {
+  return await axios.get(URL)
+}

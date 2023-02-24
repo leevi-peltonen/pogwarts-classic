@@ -1,5 +1,5 @@
 import { Button, Typography, Box } from "@mui/material"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { IEnemy } from "../models/enemy"
 import { IPlayer } from "../models/player";
 import Table from '@mui/material/Table';
@@ -21,6 +21,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Fight from "./Fight";
+import { getAllEnemies } from "../api/enemy";
 
 interface IBattleDisplayProps {
   player: IPlayer,
@@ -29,44 +30,16 @@ interface IBattleDisplayProps {
 
 const BattleDisplay = (props: IBattleDisplayProps) => {
 
-  const [enemy, setEnemy] = useState<IEnemy | null>()
+  const [enemies, setEnemies] = useState<IEnemy[]>()
+
+  useEffect(() => {
+    getAllEnemies()
+    .then(res => {
+      setEnemies(res.data.sort((a: IEnemy,b: IEnemy) =>  a.level - b.level)) //Gets enemeies from response and sorts ascending by level
+    })
+  }, [])
 
   const TABLE_HEADERS = ["Name", "Level", "Health", "Attack", "Defense", "Fight"]
-
-  const ENEMIES_PLACEHOLDER = [
-    {
-      "name": "Goblin",
-      "level": 1,
-      "health": 20,
-      "attack": 10,
-      "defense": 5,
-      "isAlive": true
-    },
-    {
-      "name": "Skeleton",
-      "level": 2,
-      "health": 25,
-      "attack": 15,
-      "defense": 8,
-      "isAlive": true
-    },
-    {
-      "name": "Giant Rat",
-      "level": 3,
-      "health": 30,
-      "attack": 18,
-      "defense": 10,
-      "isAlive": true
-    },
-    {
-      "name": "Zombie",
-      "level": 4,
-      "health": 35,
-      "attack": 20,
-      "defense": 12,
-      "isAlive": true
-    }
-  ]
 
   return (
     <>
@@ -82,7 +55,7 @@ const BattleDisplay = (props: IBattleDisplayProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-              {ENEMIES_PLACEHOLDER.map((enemy, i) => {
+              {enemies && enemies.map((enemy, i) => {
                 return (
                   <TableRow 
                   key={i}
@@ -98,10 +71,13 @@ const BattleDisplay = (props: IBattleDisplayProps) => {
                     </TableCell>
                   </TableRow>
                 )
-              })}
+              })
+              
+              }
           </TableBody>
         </Table>
       </TableContainer>
+      {!enemies && <Typography>Loading...</Typography>}
     </>
   )
 }

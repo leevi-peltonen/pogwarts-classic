@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { IPlayer } from '../models/player'
 import { IEnemy } from '../models/enemy'
-import { Paper, Stack, Typography, Box, Grow } from '@mui/material'
+import { Paper, Stack, Typography, Box, Button } from '@mui/material'
+
+import { generateCoins } from '../utils/common'
 
 interface ILootProps {
   player: IPlayer,
@@ -13,27 +15,11 @@ interface ILootProps {
 
 
 const Loot = (props: ILootProps) => {
-
-  const [checked, setChecked] = useState(true);
-  
-  const handleChange = () => {
-    setChecked((prev) => !prev);
-  };
-
   return (
     <Box>
       <Typography>You killed {props.enemy.name}</Typography>
       <Stack spacing={4} direction="row">
-        <Grow in={checked}>
-          <LootBox/>
-        </Grow>
-        <Grow
-                  in={checked}
-                  style={{ transformOrigin: '0 0 0' }}
-                  {...(checked ? { timeout: 1000 } : {})}
-        >
-          <LootBox/>
-        </Grow>
+        <LootBox coins={generateCoins(props.enemy.level)} player={props.player} setPlayer={props.setPlayer} />
       </Stack>
     </Box>
   )
@@ -42,17 +28,36 @@ const Loot = (props: ILootProps) => {
 
 
 interface ILootBoxProps {
-
+  player: IPlayer,
+  setPlayer: (cb: (player: IPlayer) => IPlayer) => void
+  coins: number,
 }
 
 const LootBox = (props: ILootBoxProps) => {
-  return (
-  <Paper sx={{ m: 1}} elevation={4}>
-    <Box sx={{ width: 100, height: 100 }}>
-      <Typography>loot here</Typography>
-    </Box>
-  </Paper>
 
+  const [coins, setCoins] = useState(props.coins)
+  const [isPickedUp, setIsPickedUp] = useState(false)
+
+  const handlePickUpItem = () => {
+    props.setPlayer(prev => ({...prev, coins: prev.coins += coins}))
+    setIsPickedUp(true)
+  }
+
+  
+
+  return (
+    <>
+      {!isPickedUp && 
+        (
+        <Paper sx={{ m: 1}} elevation={4}>
+          <Box sx={{ width: 100, height: 100 }}>
+            <Typography>Coins: {coins}</Typography>
+            <Button variant="contained" onClick={handlePickUpItem} >Pick up</Button>
+          </Box>
+        </Paper>
+        )
+      }
+    </>
   )
 }
 
