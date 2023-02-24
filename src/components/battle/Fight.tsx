@@ -40,7 +40,7 @@ const Fight = (props: IFightProps) => {
     //TODO
     //calculate damage to enemy
     setEnemyHealth(prev => prev - 20)
-
+    
     setIsEnemyAttacking(true)
     setTimeout(() => {
       //TODO
