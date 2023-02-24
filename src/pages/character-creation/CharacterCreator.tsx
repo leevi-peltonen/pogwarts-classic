@@ -7,10 +7,13 @@ import { IWeapon } from "../../models/weapon"
 import { Button, Stack, Typography } from "@mui/material/"
 import { red } from "@mui/material/colors"
 import { IAttributes } from "../../models/attributes"
+import { createUser } from "../../api/login"
+
 
 interface ICharacterCreatorProps {
   player: IPlayer
   setPlayer: (cb: (player: IPlayer) => IPlayer) => void
+  handleRegister: Function
 }
 
 const CharacterCreator = (props: ICharacterCreatorProps) => {
@@ -49,8 +52,12 @@ const CharacterCreator = (props: ICharacterCreatorProps) => {
   const handleCharacterCreation = () => {
     //TODO: - Create Player character state with 'chosenWeapon' and 'attributes' states
     //      - then: navigate to mainpage
-    //props.setPlayer(prev => ({...prev, equippedWeapon: chosenWeapon, attributes: attributes}))
-    //navigate('/')
+    props.setPlayer(prev => ({...prev, equippedWeapon: chosenWeapon, attributes: attributes}))
+    
+
+    props.handleRegister()
+    
+    
   }
 
   return (

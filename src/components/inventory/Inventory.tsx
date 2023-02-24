@@ -25,7 +25,7 @@ const Inventory = (props: IInventoryProps) => {
   const player = props.player;
   const setPlayer = props.setPlayer;
   const [render, setRender] = useState(false)
-  const [equippedWeapon, setEquippedWeapon] = useState<IWeapon>()
+  const [equippedWeapon, setEquippedWeapon] = useState<IWeapon>(player.equippedWeapon)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -46,13 +46,14 @@ const Inventory = (props: IInventoryProps) => {
 
 
   //Retrieve player.equippedWeapon data
+  /*
   useEffect(() => {
     getWeaponByID(player.equippedWeapon)
     .then(res => {
       console.log(res)
     })
   }, [])
-  
+  */
 
   const handleItemEquip = async (itemToEquip: IWeapon) => {
     setLoading(true)

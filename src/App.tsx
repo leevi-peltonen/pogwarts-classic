@@ -12,9 +12,11 @@ import SignUp from "./pages/login/SignUp"
 import Quests from "./pages/Quests/Quests";
 import Contracts from "./pages/Contracts/Contracts";
 import { IPlayer } from "./models/player";
-import { login } from "./api/login";
+import { createUser, login } from "./api/login";
 import { IUserRegister } from "./models/userRegister";
 import { IUserLogin } from "./models/userLogin"
+import { IWeapon } from "./models/weapon";
+import { IArmor } from "./models/armor";
 
 export default function App() {
 
@@ -32,7 +34,7 @@ export default function App() {
     if (loggedPlayerJSON) {
       const loggedPlayer = JSON.parse(loggedPlayerJSON);
       console.log("haloo",loggedPlayer)
-      setPlayer(loggedPlayer.user);
+      setPlayer(loggedPlayer.data);
     }
   }, [])
 
@@ -53,6 +55,32 @@ export default function App() {
     event.preventDefault()
     window.localStorage.removeItem('loggedPlayer')
     setPlayer(() => ({} as IPlayer))
+  }
+
+
+  const handleRegister = async () => {
+    const userToCreate: IUserRegister = {
+      username: newUser,
+      password: newPassword,
+      repeatPassword: newPassword,
+      equippedWeapon: player.equippedWeapon,
+      equippedArmor: player.equippedArmor,
+      attributes: player.attributes,
+      coins: 0,
+      experience: 0,
+      level: 1,
+      highestLevelOfKilledMonsters: 0,
+      weapons: [] as IWeapon[],
+      armor: [] as IArmor[],
+      health: 100,
+      availableAttributePoints: 0
+    }
+
+    const returnedUser = await createUser(userToCreate)
+    console.log(returnedUser)
+    window.localStorage.setItem('loggedPlayer', JSON.stringify(returnedUser))
+    setPlayer(returnedUser.data);
+    navigate('/')
   }
 
   return (
@@ -86,8 +114,8 @@ export default function App() {
               />
             }
             />
-            <Route path="/signup" element={<SignUp player={player} setPlayer={setPlayer}/>}/>
-            <Route path="/character-creation" element={<CharacterCreator player={player} setPlayer={setPlayer} />}/>
+            <Route path="/signup" element={<SignUp setNewUser={setNewUser} setNewPassword={setNewPassword} player={player} setPlayer={setPlayer}/>}/>
+            <Route path="/character-creation" element={<CharacterCreator handleRegister={handleRegister} player={player}  setPlayer={setPlayer} />}/>
           </>
           )}
         </Routes>

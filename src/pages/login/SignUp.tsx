@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, Dispatch, SetStateAction } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -35,7 +35,9 @@ const theme = createTheme();
 
 interface ISignUpProps {
   player: IPlayer,
-  setPlayer: (cb: (player: IPlayer) => IPlayer) => void
+  setPlayer: (cb: (player: IPlayer) => IPlayer) => void,
+  setNewPassword: Dispatch<SetStateAction<string>>
+  setNewUser: Dispatch<SetStateAction<string>>
 }
 
 export default function SignUp(props: ISignUpProps) {
@@ -80,27 +82,24 @@ export default function SignUp(props: ISignUpProps) {
 
     // Check if username exists
     
-    checkUsername(user)
+    if(!await userExists(user)) {
+      props.setNewPassword(user.password)
+      props.setNewUser(user.username)
+      navigate('/character-creation')
+    }
   };
 
-const checkUsername = (user: IUserRegister) => {
-  getUserByName(user.username)
-  .then(res => {
-    if(res.data.length > 0) {
-      window.alert('Account already exists!')
+  const userExists = async (user: IUserRegister) => {
+    const returnVal = await getUserByName(user.username)
+    if (returnVal.data.length > 0) {
+      window.alert('Account already exists!');
+      return true;
+    } else {
+      return false;
     }
-    else {
-      createAccount(user)
-    }
-  })
-}
+  }
   
-const createAccount = (user: IUserRegister) => {
-  createUser(user)
-  .then(res => {
-    navigate('/character-creation')
-  })
-}
+
 
 
   return (

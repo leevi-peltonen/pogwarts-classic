@@ -57,7 +57,7 @@ const Fight = (props: IFightProps) => {
       <Stack spacing={4}>
         <Typography>{props.player.username}</Typography>
         <Typography>Health: {playerHealth}</Typography>
-        <Typography>Attack level: {props.player.damage}</Typography>
+        <Typography>Attack level: tulee joskus</Typography>
         <Typography>Defense level: tulee joskus</Typography>
         <Button disabled={isEnemyAttacking} variant="contained" onClick={handleAttack}>Attack</Button>
       </Stack>

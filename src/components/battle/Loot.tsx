@@ -17,9 +17,7 @@ interface ILootProps {
 const Loot = (props: ILootProps) => {
   /*
   useEffect(() => {
-    earnXPandCheckForLevelUp(props.player, props.enemy.level * 5)
-    console.log('Currrent XP', props.player.experience)
-    console.log('Current level', props.player.level)
+
   }, [])
   */
   return (

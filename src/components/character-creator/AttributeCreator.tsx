@@ -16,7 +16,7 @@ const AttributeCreator = (props: IAttributeCreatorProps): JSX.Element => {
     dex: 1,
     int: 1,
   })
-  const ATTRIBUTE_HEADERS = ["Strength", "Dexterity", "Intelligence"]
+  const ATTRIBUTE_HEADERS = ["Str", "Dex", "Int"]
 
   const increaseAttribute = (name: string, value: number) => {
     setAttributes((prev) => ({...prev, [name.toLowerCase()]: value + 1}))
