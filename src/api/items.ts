@@ -8,5 +8,5 @@ export const getWeaponByID = async (weapon: IWeapon) => {
 }
 
 export const getWeaponByName = async (weaponName: string) => {
-  return await axios.post(URL + '/name', {name: weaponName})
+  return await axios.post(URL + 'name', {name: weaponName})
 }
