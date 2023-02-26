@@ -2,7 +2,7 @@
 import { updateLevel, updateXP } from "../api/user";
 import Weapons from "../data/weapons.json"
 import { IEnemy } from "../models/enemy";
-import { IPlayer } from "../models/player"
+import { ICharacter } from "../models/character";
 import { IWeapon } from "../models/weapon";
 
 ///////////////////////COMBAT//////////////////////////
@@ -67,11 +67,11 @@ export const performSkillCheck = (
 }
 
 // increase player level by one
-export const levelUp = (player: IPlayer) => {
-  player.level += 1
-  player.health += 10
-  player.availableAttributePoints += 1
-  player.experience = 0
+export const levelUp = (character: ICharacter) => {
+  character.level += 1
+  character.health += 10
+  character.availableAttributePoints += 1
+  character.experience = 0
 }
 
 
@@ -82,18 +82,18 @@ const getLevelExperience = (level: number) => {
 
 
 // give player XP and check for level up
-export const earnXPandCheckForLevelUp = (player: IPlayer, earnedXP: number) => {
+export const earnXPandCheckForLevelUp = (character: ICharacter, earnedXP: number) => {
   //DEBUG:
   //player.experience += 1000
   //NO-DEBUG:
-  player.experience += earnedXP
-  console.log('current XP: ',player.experience)
-  updateXP(player)
-  const nextLevelXP = getLevelExperience(player.level + 1)
+  character.experience += earnedXP
+  console.log('current XP: ',character.experience)
+  updateXP(character)
+  const nextLevelXP = getLevelExperience(character.level + 1)
   console.log(`Next level at ${nextLevelXP} XP`)
-  if(player.experience >= nextLevelXP) {
-    levelUp(player)
-    updateLevel(player)
+  if(character.experience >= nextLevelXP) {
+    levelUp(character)
+    updateLevel(character)
   }
 }
 

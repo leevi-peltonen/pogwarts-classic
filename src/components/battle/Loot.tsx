@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { IPlayer } from '../../models/player'
+import { IUser } from '../../models/user'
 import { IEnemy } from '../../models/enemy'
 import { Paper, Stack, Typography, Box, Button } from '@mui/material'
 
@@ -8,8 +8,8 @@ import { generateCoins, earnXPandCheckForLevelUp } from '../../utils/common'
 import { updateCoins } from '../../api/user'
 
 interface ILootProps {
-  player: IPlayer,
-  setPlayer: (cb: (player: IPlayer) => IPlayer) => void
+  user: IUser,
+  setUser: (cb: (user: IUser) => IUser) => void,
   enemy: IEnemy,
   handleClose: () => void
 }
@@ -24,7 +24,7 @@ const Loot = (props: ILootProps) => {
     <Box>
       <Typography>You killed {props.enemy.name}</Typography>
       <Stack spacing={4}>
-        <LootBox coins={generateCoins(props.enemy.level)} player={props.player} setPlayer={props.setPlayer} />
+        <LootBox coins={generateCoins(props.enemy.level)} user={props.user} setUser={props.setUser} />
         <Button variant="contained" onClick={props.handleClose}>Close</Button>
       </Stack>
     </Box>
@@ -34,8 +34,8 @@ const Loot = (props: ILootProps) => {
 
 
 interface ILootBoxProps {
-  player: IPlayer,
-  setPlayer: (cb: (player: IPlayer) => IPlayer) => void
+  user: IUser,
+  setUser: (cb: (user: IUser) => IUser) => void,
   coins: number,
 }
 
@@ -45,9 +45,9 @@ const LootBox = (props: ILootBoxProps) => {
   const [isPickedUp, setIsPickedUp] = useState(false)
 
   const handlePickUpItem = () => {
-    props.setPlayer(prev => ({...prev, coins: prev.coins += coins}))
+
     setIsPickedUp(true)
-    updateCoins(props.player.id, props.player.coins)
+
   }
 
   

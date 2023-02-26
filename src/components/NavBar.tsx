@@ -3,11 +3,11 @@ import {AppBar, Toolbar, IconButton, Typography, Stack, Button, ThemeProvider, c
 import Link from "@mui/material/Link";
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import React, { useContext } from "react"
-import { IPlayer } from "../models/player";
+import { IUser } from "../models/user";
 
 interface INavBarProps {
-  player: IPlayer,
-  setPlayer: (cb: (player: IPlayer) => IPlayer) => void,
+  user: IUser,
+  setUser: (cb: (user: IUser) => IUser) => void,
   handleLogout: (event: React.MouseEvent<HTMLElement>) => void
 }
 
@@ -37,8 +37,9 @@ const NavBar = (props: INavBarProps): JSX.Element => {
             </Typography>
             
             <Stack direction="row" spacing={2}>
-              {props.player.id ?
+              {props.user.name ?
               <>
+                <Button onClick={() => navigate('/characters')} color="inherit" >Characters</Button>
                 <Button onClick={() => navigate('/quests')} color="inherit">Quests</Button>
                 <Button onClick={() => navigate('/contracts')} color="inherit">Contracts</Button>
                 <Button onClick={() => navigate('/battle')} color="inherit">Battle</Button>

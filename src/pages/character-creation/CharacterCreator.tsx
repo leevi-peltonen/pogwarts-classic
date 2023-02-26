@@ -1,40 +1,38 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import AttributeCreator from "../../components/character-creator/AttributeCreator"
 import { useNavigate } from "react-router-dom"
 import WeaponSelection from "../../components/character-creator/WeaponSelection"
-import { IPlayer } from "../../models/player"
+import { IUser } from "../../models/user"
 import { IWeapon } from "../../models/weapon"
-import { Button, Stack, Typography } from "@mui/material/"
+import { Button, Stack, TextField, Typography } from "@mui/material/"
 import { red } from "@mui/material/colors"
 import { IAttributes } from "../../models/attributes"
 import { createUser } from "../../api/login"
+import { CharacterContext, ICharacterContext } from '../../context/CharacterContext'
+import { createCharacter } from "../../api/character"
+import { ICharacter } from "../../models/character"
 
 
 interface ICharacterCreatorProps {
-  player: IPlayer
-  setPlayer: (cb: (player: IPlayer) => IPlayer) => void
-  handleRegister: Function
+  user: IUser,
+  setUser: (cb: (user: IUser) => IUser) => void,
 }
 
 const CharacterCreator = (props: ICharacterCreatorProps) => {
   const navigate = useNavigate()
 
-  // States
+  // Context
+  const { character, setCharacter } = useContext<ICharacterContext>(CharacterContext);
 
+  // States
   const [pointsRemaining, setPointsRemaining] = useState<Number>(10)
+  const [characterName, setCharacterName] = useState('')
   const [attributes, setAttributes] = useState<IAttributes>({
     str: 1,
-    int: 1,
     dex: 1,
+    int: 1,
   })
-  const [chosenWeapon, setChosenWeapon] = useState<IWeapon>({
-    id: "63f4c6726b4f216722ac6ce8",
-    name: "Basic Sword",
-    description: "A classic melee weapon, used to slash and stab enemies.",
-    damage: 10,
-    price: 100,
-    rarity: "common",
-  })
+  const [chosenWeapon, setChosenWeapon] = useState<IWeapon>({} as IWeapon)
 
   // Handlers
   const handleChosenWeaponSelection = (weapon: IWeapon) => {
@@ -49,15 +47,18 @@ const CharacterCreator = (props: ICharacterCreatorProps) => {
     setAttributes(attributes)
   }
 
-  const handleCharacterCreation = () => {
-    //TODO: - Create Player character state with 'chosenWeapon' and 'attributes' states
-    //      - then: navigate to mainpage
-    props.setPlayer(prev => ({...prev, equippedWeapon: chosenWeapon, attributes: attributes}))
-    
-
-    props.handleRegister()
-    
-    
+  const handleCharacterCreation = async () => {
+    //TODO: - CreateNewCharacter to DB with attributes and chosen weapon
+    const temp: ICharacter = await createCharacter({
+      name: characterName,
+      strength: attributes.str,
+      dexterity: attributes.dex,
+      intelligence: attributes.int,
+      userName: props.user.name
+    })
+    setCharacter(temp)
+    props.setUser(prev => ({...prev, characters: [...prev.characters, temp]}))
+    navigate('/characters')
   }
 
   return (
@@ -70,6 +71,7 @@ const CharacterCreator = (props: ICharacterCreatorProps) => {
         justifyContent="center"
         alignItems="center"
       >
+        <TextField variant="outlined" value={characterName} onChange={(event) =>{setCharacterName(event.target.value)}} />
         <WeaponSelection handleChosenWeapon={handleChosenWeaponSelection} />
         <AttributeCreator
           handleAttributes={handleAttributes}

@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 //import PlayerProvider from './context/PlayerContext';
 import EnemyProvider from './context/EnemyContext';
 import { BrowserRouter } from 'react-router-dom';
-
+import { CharacterProvider } from './context/CharacterContext';
 const rootElement = document.getElementById('root');
 
 if (!rootElement) {
@@ -16,13 +16,13 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 
 root.render(
-
+  <CharacterProvider>
     <EnemyProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </EnemyProvider>
-
+  </CharacterProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

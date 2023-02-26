@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { getUserByName, login } from '../../api/login';
 //import { PlayerContext, IPlayerContext } from '../../context/PlayerContext';
 import { useNavigate, NavLink } from 'react-router-dom';
-import { IPlayer } from "../../models/player";
+import { IUser } from "../../models/user";
 
 // function Copyright(props) {
 //   return (
@@ -33,12 +33,12 @@ import { IPlayer } from "../../models/player";
 const theme = createTheme();
 
 interface ISignInProps {
-  player: IPlayer,
-  setPlayer: (cb: (player: IPlayer) => IPlayer) => void,
+  user: IUser,
+  setUser: (cb: (user: IUser) => IUser) => void,
   handleLogin: (event: React.FormEvent<HTMLFormElement>) => void
-  username: string;
+  name: string;
   password: string;
-  setUsername: Dispatch<SetStateAction<string>>;
+  setName: Dispatch<SetStateAction<string>>;
   setPassword: Dispatch<SetStateAction<string>>;
 }
 
@@ -91,8 +91,8 @@ export default function SignIn(props: ISignInProps) {
               name="username"
               autoComplete="username"
               autoFocus
-              value={props.username}
-              onChange={(event: ChangeEvent<HTMLInputElement>) => {props.setUsername(event.target.value)}}
+              value={props.name}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {props.setName(event.target.value)}}
             />
             <TextField
               margin="normal"

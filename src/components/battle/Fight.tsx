@@ -1,13 +1,13 @@
 import { Button, Stack, Typography } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { IEnemy } from '../../models/enemy'
-import { IPlayer } from '../../models/player'
+import { IUser } from '../../models/user'
 import { earnXPandCheckForLevelUp } from '../../utils/common'
 import Loot from './Loot'
 
 interface IFightProps {
-  player: IPlayer,
-  setPlayer: (cb: (player: IPlayer) => IPlayer) => void
+  user: IUser,
+  setUser: (cb: (user: IUser) => IUser) => void,
   enemy: IEnemy,
   handleClose: () => void,
   setLevelChange: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,16 +16,18 @@ interface IFightProps {
 
 const Fight = (props: IFightProps) => {
 
-  const [playerHealth, setPlayerHealth] = useState(props.player.health)
+  const [playerHealth, setPlayerHealth] = useState(100)
   const [enemyHealth, setEnemyHealth] = useState(props.enemy.health)
   const [isEnemyAttacking, setIsEnemyAttacking] = useState(false)
   const [isEnemyAlive, setIsEnemyAlive] = useState(props.enemy.isAlive)
   // Watches enemy health
   useEffect(() => {
     if(enemyHealth <= 0) {
+      /*
       earnXPandCheckForLevelUp(props.player, props.enemy.level * 5)
       setIsEnemyAlive(false)
       props.setLevelChange(prev => !prev)
+      */
     }
   }, [enemyHealth])
 
@@ -55,7 +57,7 @@ const Fight = (props: IFightProps) => {
       {isEnemyAlive ? 
       <>
       <Stack spacing={4}>
-        <Typography>{props.player.username}</Typography>
+        <Typography>{props.user.name}</Typography>
         <Typography>Health: {playerHealth}</Typography>
         <Typography>Attack level: tulee joskus</Typography>
         <Typography>Defense level: tulee joskus</Typography>
@@ -72,7 +74,7 @@ const Fight = (props: IFightProps) => {
           </>
         :
         <>
-          <Loot handleClose={props.handleClose} player={props.player} setPlayer={props.setPlayer} enemy={props.enemy} />
+          <Loot handleClose={props.handleClose} user={props.user} setUser={props.setUser} enemy={props.enemy} />
         </>
       }
 

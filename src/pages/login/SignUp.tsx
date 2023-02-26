@@ -16,7 +16,7 @@ import { createUser, getUserByName } from '../../api/login';
 //import { PlayerContext, IPlayerContext } from '../../context/PlayerContext';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { IUserRegister } from '../../models/userRegister';
-import { IPlayer } from '../../models/player';
+import { IUser } from '../../models/user';
 
 // function Copyright(props) {
 //   return (
@@ -34,10 +34,11 @@ import { IPlayer } from '../../models/player';
 const theme = createTheme();
 
 interface ISignUpProps {
-  player: IPlayer,
-  setPlayer: (cb: (player: IPlayer) => IPlayer) => void,
+  user: IUser,
+  setUser: (cb: (user: IUser) => IUser) => void,
   setNewPassword: Dispatch<SetStateAction<string>>
-  setNewUser: Dispatch<SetStateAction<string>>
+  setNewName: Dispatch<SetStateAction<string>>
+  handleRegister: Function
 }
 
 export default function SignUp(props: ISignUpProps) {
@@ -64,7 +65,7 @@ export default function SignUp(props: ISignUpProps) {
     const user: IUserRegister = {} as IUserRegister
     for(let pair of dataPairs) {
       if(pair[0] === "username") {
-        user.username = pair[1] as string
+        user.name = pair[1] as string
       }
       if(pair[0] === "password") {
         user.password = pair[1] as string
@@ -82,15 +83,16 @@ export default function SignUp(props: ISignUpProps) {
 
     // Check if username exists
     
-    if(!await userExists(user)) {
+
       props.setNewPassword(user.password)
-      props.setNewUser(user.username)
+      props.setNewName(user.name)
+      props.handleRegister(user.name, user.password, user.repeatPassword)
       navigate('/character-creation')
-    }
+    
   };
 
   const userExists = async (user: IUserRegister) => {
-    const returnVal = await getUserByName(user.username)
+    const returnVal = await getUserByName(user.name)
     if (returnVal.data.length > 0) {
       window.alert('Account already exists!');
       return true;

@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const URL = process.env.REACT_APP_API_URL + "/enemy/"
+const URL = process.env.REACT_APP_API_URL + "/Enemy/"
 
 
 export const getEnemyByID = async (enemyId: string) => {

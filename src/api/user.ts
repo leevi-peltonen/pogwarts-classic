@@ -1,7 +1,7 @@
 import axios from "axios"
-import { IPlayer } from "../models/player"
+import { ICharacter } from "../models/character"
 
-const URL  = process.env.REACT_APP_API_URL + "/users/"
+const URL  = process.env.REACT_APP_API_URL + "/Users/"
 
 
 
@@ -14,10 +14,10 @@ export const updateCoins = async (userId: String, coins: Number) => {
   return await axios.patch(URL + userId + '/coins', {coins: coins})
 }
 
-export const updateLevel = async (player: IPlayer) => {
-  return await axios.patch(URL + player.id + '/level', {level: player.level})
+export const updateLevel = async (character: ICharacter) => {
+  return await axios.patch(URL, character.level) // TODO: Change url to match api
 }
 
-export const updateXP = async (player: IPlayer) => {
-  return await axios.patch(URL + player.id + '/xp', {experience: player.experience})
+export const updateXP = async (character: ICharacter) => {
+  return await axios.patch(URL ,character.experience) // TODO: Change url to match api
 }

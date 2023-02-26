@@ -11,19 +11,23 @@ import SignIn from "./pages/login/SignIn"
 import SignUp from "./pages/login/SignUp"
 import Quests from "./pages/Quests/Quests";
 import Contracts from "./pages/Contracts/Contracts";
-import { IPlayer } from "./models/player";
+import { IUser } from "./models/user";
 import { createUser, login } from "./api/login";
 import { IUserRegister } from "./models/userRegister";
 import { IUserLogin } from "./models/userLogin"
 import { IWeapon } from "./models/weapon";
 import { IArmor } from "./models/armor";
+import { CharacterProvider } from "./context/CharacterContext";
+import { ICharacter } from "./models/character";
+import CharacterSelection from "./pages/character-selection/CharacterSelection";
+
 
 export default function App() {
 
-  const [player, setPlayer] = useState<IPlayer>({} as IPlayer);
-  const [username, setUsername] = useState<string>('')
+  const [user, setUser] = useState<IUser>({} as IUser);
+  const [name, setName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const [newUser, setNewUser] = useState<string>('')
+  const [newName, setNewName] = useState<string>('')
   const [newPassword, setNewPassword] = useState<string>('')
   const [token, setToken] = useState<string>('')
 
@@ -34,88 +38,85 @@ export default function App() {
     if (loggedPlayerJSON) {
       const loggedPlayer = JSON.parse(loggedPlayerJSON);
       console.log("haloo",loggedPlayer)
-      setPlayer(loggedPlayer.data);
+      setUser(loggedPlayer);
     }
   }, [])
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const user: IUserLogin = {
-      username: username,
+      name: name,
       password: password
     };
     const returnedUser = await login(user);
-    console.log(returnedUser)
-    window.localStorage.setItem("loggedPlayer", JSON.stringify(returnedUser.data));
-    setPlayer(returnedUser.data.user);
+    window.localStorage.setItem("loggedPlayer", JSON.stringify(returnedUser));
+    setUser(returnedUser);
     navigate('/');
   }
 
   const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault()
     window.localStorage.removeItem('loggedPlayer')
-    setPlayer(() => ({} as IPlayer))
+    setUser(() => ({} as IUser))
+    navigate('/')
   }
 
 
-  const handleRegister = async () => {
+  const handleRegister = async (name: string, password:string, repeatPassword: string) => {
     const userToCreate: IUserRegister = {
-      username: newUser,
-      password: newPassword,
-      repeatPassword: newPassword,
-      equippedWeapon: player.equippedWeapon,
-      equippedArmor: player.equippedArmor,
-      attributes: player.attributes,
-      coins: 0,
-      experience: 0,
-      level: 1,
-      highestLevelOfKilledMonsters: 0,
-      weapons: [] as IWeapon[],
-      armor: [] as IArmor[],
-      health: 100,
-      availableAttributePoints: 0
+      name: name,
+      password: password,
+      repeatPassword: repeatPassword
     }
 
     const returnedUser = await createUser(userToCreate)
     console.log(returnedUser)
     window.localStorage.setItem('loggedPlayer', JSON.stringify(returnedUser))
-    setPlayer(returnedUser.data);
+    setUser(returnedUser.data);
     navigate('/')
+  }
+
+  const handleCharacterSelection = (): ICharacter => {
+    // TODO: character selection. Current is a placeholder
+    return user.characters[0]
   }
 
   return (
       <div className="App">
-        <NavBar player={player} setPlayer={setPlayer} handleLogout={handleLogout} />
+        <NavBar user={user} setUser={setUser} handleLogout={handleLogout} />
         <Routes>
-          {player.id ? (
+          {user.name ? (
             <>
-              <Route path="/" element={<MainScreen player={player} setPlayer={setPlayer} />}/>
-              <Route path="/player-inventory" element={<Inventory player={player} setPlayer={setPlayer} />}/>
-              <Route path="/battle"element={<BattleDisplay player={player} setPlayer={setPlayer} />} />
-              <Route path="/shop" element={<Shop player={player} setPlayer={setPlayer} />}/>
-              <Route path="/quests" element={<Quests />} />
-              <Route path="/contracts" element={<Contracts />} />
+                
+                  <Route path="/" element={<MainScreen user={user} setUser={setUser} />}/>
+                  <Route path="/player-inventory" element={<Inventory user={user} setUser={setUser} />}/>
+                  <Route path="/battle"element={<BattleDisplay user={user} setUser={setUser} />} />
+                  <Route path="/shop" element={<Shop user={user} setUser={setUser} />}/>
+                  <Route path="/quests" element={<Quests />} />
+                  <Route path="/contracts" element={<Contracts />} />
+                  <Route path="/characters" element={<CharacterSelection user={user} setUser={setUser} />} />
+                  <Route path="/character-creation" element={<CharacterCreator user={user}  setUser={setUser} />}/>
             </>
           )
           :
           (
           <>
-            <Route path="/" element={<MainScreen player={player} setPlayer={setPlayer} />}/>
+            <Route path="/" element={<MainScreen user={user} setUser={setUser} />}/>
             <Route path="/login" element={
               <SignIn
-                player={player}
-                setPlayer={setPlayer}
+                user={user}
+                setUser={setUser}
                 handleLogin={handleLogin}
-                username={username}
-                setUsername={setUsername}
+                name={name}
+                setName={setName}
                 password={password}
                 setPassword={setPassword}
                 
               />
             }
             />
-            <Route path="/signup" element={<SignUp setNewUser={setNewUser} setNewPassword={setNewPassword} player={player} setPlayer={setPlayer}/>}/>
-            <Route path="/character-creation" element={<CharacterCreator handleRegister={handleRegister} player={player}  setPlayer={setPlayer} />}/>
+            <Route path="/signup" element={<SignUp handleRegister={handleRegister} setNewName={setNewName} setNewPassword={setNewPassword} user={user} setUser={setUser}/>}/>
+            <Route path="/character-creation" element={<CharacterCreator user={user}  setUser={setUser} />}/>
           </>
           )}
         </Routes>

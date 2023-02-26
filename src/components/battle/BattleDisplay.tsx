@@ -1,7 +1,6 @@
 import { Button, Typography, Box } from "@mui/material"
 import React, { useState, useEffect } from "react"
 import { IEnemy } from "../../models/enemy"
-import { IPlayer } from "../../models/player";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -19,17 +18,18 @@ import { TransitionProps } from '@mui/material/transitions';
 import Fight from "./Fight";
 import { getAllEnemies } from "../../api/enemy";
 import { levelUp } from "../../utils/common";
+import { IUser } from "../../models/user";
 
 interface IBattleDisplayProps {
-  player: IPlayer,
-  setPlayer: (cb: (player: IPlayer) => IPlayer) => void,
+  user: IUser,
+  setUser: (cb: (user: IUser) => IUser) => void,
 }
 
 const BattleDisplay = (props: IBattleDisplayProps) => {
 
   const [enemies, setEnemies] = useState<IEnemy[]>()
   const [levelChange, setLevelChange] = useState(false)
-
+/*
   useEffect(() => {
     getAllEnemies()
     .then(res => {
@@ -39,7 +39,7 @@ const BattleDisplay = (props: IBattleDisplayProps) => {
       setEnemies(prev => prev?.filter(enemy => enemy.level <= props.player.level)) //filter out enemies that are too high level for player
     })
   }, [props.player.level, levelChange])
-
+*/
   const TABLE_HEADERS = ["Name", "Level", "Health", "Attack", "Defense", "Fight"]
 
   return (
@@ -68,7 +68,7 @@ const BattleDisplay = (props: IBattleDisplayProps) => {
                     <TableCell align="right">{enemy.attack}</TableCell>
                     <TableCell align="right">{enemy.defense}</TableCell>
                     <TableCell align="right">
-                      <EnemyDialog setLevelChange={setLevelChange} enemy={enemy} player={props.player} setPlayer={props.setPlayer} />
+                      <EnemyDialog setLevelChange={setLevelChange} enemy={enemy} user={props.user} setUser={props.setUser} />
                     </TableCell>
                   </TableRow>
                 )
@@ -94,8 +94,8 @@ const Transition = React.forwardRef(function Transition(
 
 interface IEnemyDialogProps {
   enemy: IEnemy;
-  player: IPlayer;
-  setPlayer: (cb: (player: IPlayer) => IPlayer) => void;
+  user: IUser,
+  setUser: (cb: (user: IUser) => IUser) => void,
   setLevelChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -142,7 +142,7 @@ function EnemyDialog(props: IEnemyDialogProps) {
         alignItems="center"
         sx={{marginTop: "100px"}}
         >
-          <Fight setLevelChange={props.setLevelChange} handleClose={handleClose} enemy={props.enemy} player={props.player} setPlayer={props.setPlayer} />
+          <Fight setLevelChange={props.setLevelChange} handleClose={handleClose} enemy={props.enemy} user={props.user} setUser={props.setUser} />
       </Box>
       </Dialog>
     </div>
