@@ -10,7 +10,7 @@ interface IAttributeCreatorProps {
 
 const AttributeCreator = (props: IAttributeCreatorProps): JSX.Element => {
   
-  const [pointsRemaining, setPointsRemaining] = useState(10);
+  const [pointsRemaining, setPointsRemaining] = useState(3);
   const [attributes, setAttributes] = useState<IAttributes>({
     str: 1,
     dex: 1,

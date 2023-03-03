@@ -3,5 +3,6 @@ export interface ICharacterCreate {
   strength: number,
   dexterity: number,
   intelligence: number,
-  userName: string
+  userName: string,
+  weaponName: string
 }

@@ -16,9 +16,9 @@ const WeaponSelection = (props: IWeaponSelectionProps) => {
   }, [])
 
   const getStarterWeapons = async () => {
-    const responseSword = await getWeaponByName('Basic Sword')
-    const responseStaff = await getWeaponByName('Basic Staff')
-    const responseBow = await getWeaponByName('Basic Bow')
+    const responseSword = await getWeaponByName('Sword')
+    const responseStaff = await getWeaponByName('Staff')
+    const responseBow = await getWeaponByName('Bow')
     setStarterWeapons(() => [responseSword.data, responseStaff.data, responseBow.data])
   }
 

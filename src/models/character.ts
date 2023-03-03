@@ -6,6 +6,7 @@ export interface ICharacter {
   level: number,
   experience: number,
   health: number,
+  maxHealth: number,
   availableAttributePoints: number,
   strength: number,
   dexterity: number,

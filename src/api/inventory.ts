@@ -1,18 +1,20 @@
 import axios from "axios"
+import { ICharacter } from "../models/character"
+import { IWeapon } from "../models/weapon"
+const URL = process.env.REACT_APP_API_URL
 
-const URL = process.env.REACT_APP_API_URL + "/inventory"
-
-
-
-
-export const addWeaponToInventory = async (userId: string, weaponId: string) => {
-  return await axios.patch(URL + '/add-weapon/' + userId + '/' + weaponId)
+const config  = {
+  headers: {
+    "Content-Type": "application/json"
+  }
 }
 
-export const removeWeaponFromInventory = async (userId: string, weaponId: string) => {
-  return await axios.patch(URL + '/remove-weapon/' + userId + '/' + weaponId)
+export const equipWeaponAsync = async (characterName: string, weaponName: string) => {
+  const response = await axios.patch<ICharacter>(URL + '/Characters/equip/weapon/' + characterName, weaponName, config)
+  return response.data
 }
 
-export const equipWeapon = async (userId: string, weaponId: string) => {
-  return await axios.patch(URL + '/equip/' + userId + '/' + weaponId)
+export const lootWeapon = async (weapon: IWeapon, characterName: string) => {
+  const response = await axios.patch<ICharacter>(URL + '/Characters/weapon/loot/' + characterName, weapon, config)
+  return response.data
 }

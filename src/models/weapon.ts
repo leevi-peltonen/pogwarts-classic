@@ -1,17 +1,24 @@
 export interface IWeapon {
-    id: string;
     name: string;
     description: string;
     damage: number;
+    critDamage: number;
+    critChance: number;
+    stunChance: number;
+    poisonChance: number;
+    lifestealChance: number;
     price: number;
     rarity: string;
+    weaponPerk: IWeaponPerk;
 };
 
-export const starterWeapon: IWeapon = {
-  id: 'asds',
-  name: "Basic Sword",
-  description: "A classic melee weapon, used to slash and stab enemies.",
-  damage: 10,
-  price: 100,
-  rarity: "common"
-};
+export interface IWeaponPerk {
+  minDamage: number;
+  maxDamage: number;
+  critDamage: number;
+  critChance: number;
+  damage: number;
+  stunChance: number;
+  poisonChance: number;
+  lifestealChance: number;
+}

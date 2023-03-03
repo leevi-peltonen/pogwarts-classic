@@ -1,5 +1,5 @@
 import { Button, Typography, Box } from "@mui/material"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { IEnemy } from "../../models/enemy"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -19,6 +19,7 @@ import Fight from "./Fight";
 import { getAllEnemies } from "../../api/enemy";
 import { levelUp } from "../../utils/common";
 import { IUser } from "../../models/user";
+import { ICharacterContext, CharacterContext } from "../../context/CharacterContext";
 
 interface IBattleDisplayProps {
   user: IUser,
@@ -27,19 +28,23 @@ interface IBattleDisplayProps {
 
 const BattleDisplay = (props: IBattleDisplayProps) => {
 
-  const [enemies, setEnemies] = useState<IEnemy[]>()
+  const [enemies, setEnemies] = useState<IEnemy[]>([] as IEnemy[])
   const [levelChange, setLevelChange] = useState(false)
-/*
+
+  const { character, setCharacter } = useContext<ICharacterContext>(CharacterContext);
+
   useEffect(() => {
-    getAllEnemies()
-    .then(res => {
-      setEnemies(res.data.sort((a: IEnemy,b: IEnemy) =>  a.level - b.level)) //Gets enemeies from response and sorts ascending by level
-    })
+    async function getEnemies() {
+      const enemies = await getAllEnemies()
+      setEnemies(enemies)
+    }
+    getEnemies()
     .then(() => {
-      setEnemies(prev => prev?.filter(enemy => enemy.level <= props.player.level)) //filter out enemies that are too high level for player
+      setEnemies(prev => prev?.filter(enemy => enemy.level <= character.level)) 
     })
-  }, [props.player.level, levelChange])
-*/
+  }, [character.level])
+
+
   const TABLE_HEADERS = ["Name", "Level", "Health", "Attack", "Defense", "Fight"]
 
   return (

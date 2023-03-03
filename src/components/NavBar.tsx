@@ -4,6 +4,7 @@ import Link from "@mui/material/Link";
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import React, { useContext } from "react"
 import { IUser } from "../models/user";
+import { ICharacterContext, CharacterContext } from "../context/CharacterContext";
 
 interface INavBarProps {
   user: IUser,
@@ -14,7 +15,7 @@ interface INavBarProps {
 const NavBar = (props: INavBarProps): JSX.Element => {
   
   //const { player } = useContext(PlayerContext) as IPlayerContext;
-
+  const { character, setCharacter } = useContext<ICharacterContext>(CharacterContext);
   const navigate = useNavigate()
 
   const darkTheme = createTheme({
@@ -26,7 +27,7 @@ const NavBar = (props: INavBarProps): JSX.Element => {
 
     return (
       <ThemeProvider theme={darkTheme}>
-        <AppBar position="static" >
+        <AppBar position="static" sx={{zIndex: 10}} >
           <Toolbar>
             <IconButton size='large' edge='start' color='inherit' aria-label='logo'>
               <AutoFixHighIcon/>
@@ -39,12 +40,8 @@ const NavBar = (props: INavBarProps): JSX.Element => {
             <Stack direction="row" spacing={2}>
               {props.user.name ?
               <>
-                <Button onClick={() => navigate('/characters')} color="inherit" >Characters</Button>
-                <Button onClick={() => navigate('/quests')} color="inherit">Quests</Button>
-                <Button onClick={() => navigate('/contracts')} color="inherit">Contracts</Button>
-                <Button onClick={() => navigate('/battle')} color="inherit">Battle</Button>
-                <Button onClick={() => navigate('/player-inventory')} color="inherit">Inventory</Button>
-                <Button onClick={() => navigate('/shop')} color="inherit">Shop</Button>
+                <Button onClick={() => navigate('/characters')} color="inherit" >{character.name ? 'Switch Characters' : 'Choose a character'}</Button>
+  
                 <Button onClick={props.handleLogout} color="inherit">Sign out</Button>
               </> 
               : 

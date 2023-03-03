@@ -43,7 +43,7 @@ const CharacterSelection = (props: ICharacterSelectionProps) => {
           <TableBody>
             {characters.map((char,i) => {
               return (
-                <TableRow key={i} sx={{ '&:last-child td, &:last-child th': { border: 0 },  }} selected={char.name===character.name}  >
+                <TableRow key={i} sx={{ '&:last-child td, &:last-child th': { border: 0 }  }} selected={char.name===character.name}  >
                   <TableCell>{char.name}</TableCell>
                   <TableCell>{char.level}</TableCell>
                   <TableCell>{char.strength}</TableCell>

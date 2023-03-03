@@ -54,7 +54,8 @@ const CharacterCreator = (props: ICharacterCreatorProps) => {
       strength: attributes.str,
       dexterity: attributes.dex,
       intelligence: attributes.int,
-      userName: props.user.name
+      userName: props.user.name,
+      weaponName: chosenWeapon.name
     })
     setCharacter(temp)
     props.setUser(prev => ({...prev, characters: [...prev.characters, temp]}))

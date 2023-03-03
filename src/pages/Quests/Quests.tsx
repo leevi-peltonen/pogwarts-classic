@@ -1,11 +1,25 @@
 import React from "react";
+import { IQuest } from "../../models/quest";
 
 const Quests = () => {
   return (
-    <>
-      <p>Quest example: some random dude: someone stole somthing for me, go get it back <br></br>new objective: find and kill thieves - return something <br></br>Rewards: 10 coins + 3 health potions</p>
-    </>
+    <div>
+      <h2>Quests</h2>
+    </div>
   )
 }
+
+interface IQuestPanelProps {
+  quest: IQuest
+}
+const QuestPanel = (props: IQuestPanelProps) => {
+  return (
+    <div>
+      <h2>QuestPanel</h2>
+    </div>
+  )
+}
+
+
 
 export default Quests

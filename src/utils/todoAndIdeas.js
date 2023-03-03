@@ -27,12 +27,13 @@ NYT:
 --------------------------------------------------------------------
   -Battle:
     -Fight screen
+      -Enemy attacks
       -melvor style combat?
         -attack "progress bar" -- https://mui.com/material-ui/react-progress/
         
     -Loot system
       -Get random items from database
-    -Experience/Level system
+    -Experience/Level system ---DONE
 --------------------------------------------------------------------
   -Items:
     -Create more models (potions, crafting materials)

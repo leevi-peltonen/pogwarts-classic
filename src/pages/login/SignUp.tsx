@@ -87,7 +87,7 @@ export default function SignUp(props: ISignUpProps) {
       props.setNewPassword(user.password)
       props.setNewName(user.name)
       props.handleRegister(user.name, user.password, user.repeatPassword)
-      navigate('/character-creation')
+      navigate('/characters')
     
   };
 

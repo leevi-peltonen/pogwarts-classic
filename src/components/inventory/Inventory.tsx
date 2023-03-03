@@ -9,13 +9,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
-import { getEquippedWeapon, updateCoins } from "../../api/user";
-import { addWeaponToInventory, equipWeapon, removeWeaponFromInventory } from "../../api/inventory";
+import Grid from '@mui/material/Unstable_Grid2';
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import { IWeapon } from "../../models/weapon";
 import { IUser } from "../../models/user";
 import { ICharacter } from "../../models/character"
-
+import { ICharacterContext, CharacterContext } from "../../context/CharacterContext";
+import { equipWeaponAsync } from "../../api/inventory";
+import { rarityColors } from "../battle/Loot";
 interface IInventoryProps {
   user: IUser,
   setUser: (cb: (user: IUser) => IUser) => void,
@@ -24,11 +26,13 @@ interface IInventoryProps {
 const Inventory = (props: IInventoryProps) => {
 
   const [loading, setLoading] = useState(false)
-
+  const { character, setCharacter } = useContext<ICharacterContext>(CharacterContext);
 
   const handleItemEquip = async (itemToEquip: IWeapon) => {
     setLoading(true)
-
+    const newCharacter = await equipWeaponAsync(character.name, itemToEquip.name)
+    setCharacter(newCharacter)
+    setLoading(false)
   }
 
 
@@ -36,8 +40,19 @@ const Inventory = (props: IInventoryProps) => {
     
     
   }
+
   return (
     <div>
+      <Box sx={{ maxWidth: 800, margin: "0 auto", padding: '50px' }}>
+        <Grid container>
+          <Grid xs={6}>
+            <Typography>Equipped Weapon: {character.equippedWeapon ? character.equippedWeapon?.name : 'None'}</Typography>
+          </Grid>
+          <Grid xs={6}>
+            <Typography>Equipped Armor: {character.equippedArmor ? character.equippedArmor?.name : 'None'}</Typography>
+          </Grid>
+        </Grid>
+      </Box>
       {loading ? <p>Loading...</p> : <InventoryGrid
         handleItemEquip={handleItemEquip}
         handleItemSale={handleItemSale}
@@ -56,7 +71,7 @@ interface IInventoryGridProps {
 }
 
 function InventoryGrid(props: IInventoryGridProps) {
-
+  const { character, setCharacter } = useContext<ICharacterContext>(CharacterContext);
   const headers = ["Name", "Damage", "Rarity", "Price", "Description", "Equip", "Sell"]
   //const [isAscending, setIsAscending] = useState<boolean>(true)
 
@@ -72,6 +87,8 @@ function InventoryGrid(props: IInventoryGridProps) {
   //   setPlayer(prev => ({...prev, weapons: sortedArray}))
   //   setIsAscending(prev => !prev)
   // }
+  
+
   
 
   return (
@@ -91,13 +108,13 @@ function InventoryGrid(props: IInventoryGridProps) {
             {headers.map((header, i) => {
               return (
                 //<TableCell onClick={(event) => {isAscending ? handleDescendingSort(event.target.innerHTML) : handleAscendingSort(event.target.innerHTML) }} key={i} >{header}</TableCell>
-                <TableCell key={i} >{header}</TableCell>
+                <TableCell key={i}>{header}</TableCell>
               )
             })}
           </TableRow>
         </TableHead>
         <TableBody>
-          {/*props.player.weapons.map((weapon, i) => (
+          {character.inventoryWeapons && character.inventoryWeapons.map((weapon, i) => (
             <TableRow
               key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -120,7 +137,7 @@ function InventoryGrid(props: IInventoryGridProps) {
                 </Button>
               </TableCell>
             </TableRow>
-          ))*/}
+          ))}
         </TableBody>
       </Table>
     </TableContainer>

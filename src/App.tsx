@@ -1,6 +1,6 @@
 import "./App.css"
-import React, {useState, useEffect} from "react";
-import { BrowserRouter, useNavigate, Route, Routes } from "react-router-dom"
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate, Route, Routes } from "react-router-dom"
 import CharacterCreator from "./pages/character-creation/CharacterCreator"
 import MainScreen from "./pages/main-screen/MainScreen"
 import Inventory from "./components/inventory/Inventory"
@@ -15,16 +15,20 @@ import { IUser } from "./models/user";
 import { createUser, login } from "./api/login";
 import { IUserRegister } from "./models/userRegister";
 import { IUserLogin } from "./models/userLogin"
-import { IWeapon } from "./models/weapon";
-import { IArmor } from "./models/armor";
-import { CharacterProvider } from "./context/CharacterContext";
+import { ICharacterContext, CharacterContext } from "./context/CharacterContext";
 import { ICharacter } from "./models/character";
 import CharacterSelection from "./pages/character-selection/CharacterSelection";
-
+import SidePanel from "./components/SidePanel";
+import Map from "./pages/map/Map";
+import Achievements from "./pages/achievements/Achievements";
+import Settings from "./pages/settings/Settings";
+import Stats from "./pages/stats/Stats";
+import WorldBosses from "./pages/world-bosses/WorldBosses";
 
 export default function App() {
 
   const [user, setUser] = useState<IUser>({} as IUser);
+  const { character, setCharacter } = useContext<ICharacterContext>(CharacterContext);
   const [name, setName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [newName, setNewName] = useState<string>('')
@@ -58,6 +62,7 @@ export default function App() {
     event.preventDefault()
     window.localStorage.removeItem('loggedPlayer')
     setUser(() => ({} as IUser))
+    setCharacter({} as ICharacter)
     navigate('/')
   }
 
@@ -84,18 +89,24 @@ export default function App() {
   return (
       <div className="App">
         <NavBar user={user} setUser={setUser} handleLogout={handleLogout} />
+        <SidePanel user={user} setUser={setUser} />
         <Routes>
           {user.name ? (
             <>
                 
                   <Route path="/" element={<MainScreen user={user} setUser={setUser} />}/>
-                  <Route path="/player-inventory" element={<Inventory user={user} setUser={setUser} />}/>
-                  <Route path="/battle"element={<BattleDisplay user={user} setUser={setUser} />} />
-                  <Route path="/shop" element={<Shop user={user} setUser={setUser} />}/>
-                  <Route path="/quests" element={<Quests />} />
-                  <Route path="/contracts" element={<Contracts />} />
+                  <Route path="/Inventory" element={<Inventory user={user} setUser={setUser} />}/>
+                  <Route path="/Battle"element={<BattleDisplay user={user} setUser={setUser} />} />
+                  <Route path="/Shop" element={<Shop user={user} setUser={setUser} />}/>
+                  <Route path="/Quests" element={<Quests />} />
+                  <Route path="/Contracts" element={<Contracts />} />
                   <Route path="/characters" element={<CharacterSelection user={user} setUser={setUser} />} />
                   <Route path="/character-creation" element={<CharacterCreator user={user}  setUser={setUser} />}/>
+                  <Route path="/Map" element={<Map />}/>
+                  <Route path="/Achievements" element={<Achievements />} />
+                  <Route path="/Settings" element={<Settings />} />
+                  <Route path="/Stats" element={<Stats />} />
+                  <Route path="/worldbosses" element={<WorldBosses />} />
             </>
           )
           :

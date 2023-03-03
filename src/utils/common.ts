@@ -1,16 +1,35 @@
 
-import { updateLevel, updateXP } from "../api/user";
+import { updateHealth, updateMaxHealth, updateLevel, updateXP } from "../api/user";
 import Weapons from "../data/weapons.json"
 import { IEnemy } from "../models/enemy";
 import { ICharacter } from "../models/character";
 import { IWeapon } from "../models/weapon";
 
 ///////////////////////COMBAT//////////////////////////
-// calculateDamage
-export const calculateDamage = (attackRating: number, targetDefenseRating: number): number => {
-  const hitChance = 1 - targetDefenseRating / 200;
-  const damage = attackRating * hitChance * (0.5 + Math.random());
-  return Math.floor(damage);
+
+const PERCENTAGE_RANGE = 0.2
+// calculateDamage to enemy
+export const calculateDamageToEnemy = (weapon: IWeapon | undefined) => {
+
+  if(!weapon) return 0
+  const minDamage = Math.floor(weapon.damage * (1 - PERCENTAGE_RANGE))
+  const maxDamage = Math.floor(weapon.damage * (1 + PERCENTAGE_RANGE))
+  const damage = Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage
+  return damage
+}
+
+// calculateDamage to player
+export const calculateDamageToPlayer = (enemy: IEnemy) => {
+  const minDamage = Math.floor(enemy.attack * (1 - PERCENTAGE_RANGE))
+  const maxDamage = Math.floor(enemy.attack * (1 + PERCENTAGE_RANGE))
+  const damage = Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage
+  return damage
+}
+
+export const chanceToHitTarget = (chancePercentage: number): boolean => {
+  const roll = Math.random()
+  return roll < chancePercentage
+  
 }
 
 //////////////////////LOOT////////////////////////////
@@ -69,31 +88,33 @@ export const performSkillCheck = (
 // increase player level by one
 export const levelUp = (character: ICharacter) => {
   character.level += 1
-  character.health += 10
+  character.maxHealth += 10
   character.availableAttributePoints += 1
   character.experience = 0
+  character.health = character.maxHealth
 }
 
 
 // Level Curve
-const getLevelExperience = (level: number) => {
-  return Math.floor(100 * Math.pow(1.1, level))
+export const getLevelExperience = (level: number) => {
+  return Math.floor(100 * Math.pow(1.2, level))
 }
 
 
 // give player XP and check for level up
-export const earnXPandCheckForLevelUp = (character: ICharacter, earnedXP: number) => {
-  //DEBUG:
-  //player.experience += 1000
-  //NO-DEBUG:
+export const earnXPandCheckForLevelUp = (character: ICharacter, enemyLevel: number): ICharacter => {
+  const earnedXP = enemyLevel*5;
   character.experience += earnedXP
-  console.log('current XP: ',character.experience)
   updateXP(character)
   const nextLevelXP = getLevelExperience(character.level + 1)
-  console.log(`Next level at ${nextLevelXP} XP`)
   if(character.experience >= nextLevelXP) {
     levelUp(character)
+    updateMaxHealth(character)
+    updateHealth(character.name, character.health)
+    updateXP(character)
     updateLevel(character)
   }
+  return character
+
 }
 

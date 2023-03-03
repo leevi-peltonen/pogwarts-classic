@@ -4,6 +4,8 @@ import React, { useState, useEffect, useContext } from 'react'
 import { TableContainer, Table, TableRow, TableCell, TableHead, TableBody, Button, Paper } from '@mui/material'
 import { IWeapon } from '../../models/weapon'
 import { IUser } from '../../models/user'
+import Typography from '@mui/material/Typography'
+import { ICharacterContext, CharacterContext } from '../../context/CharacterContext'
 
 interface IShopProps {
   user: IUser,
@@ -13,12 +15,11 @@ interface IShopProps {
 const Shop = (props: IShopProps) => {
 
   const [shopItems, setShopItems] = useState<IWeapon[]>([])
+  const { character, setCharacter } = useContext<ICharacterContext>(CharacterContext);
 
-  /*
   useEffect(() => {
-    setShopItems(generateShopItems(player.highestLevelOfKilledMonsters))
-  }, [player.highestLevelOfKilledMonsters])
-  */
+    //Axios call to get shop items
+  }, [])
 
   const handleItemPurchase = (item: IWeapon) => {
     
@@ -26,7 +27,8 @@ const Shop = (props: IShopProps) => {
 
   return (
     <>
-      <h2>Hello, what can I get you?</h2>
+      <Typography variant="h4">Shop</Typography>
+      <Typography>Coins: {character.coins}</Typography>
       <TableContainer sx={{ maxWidth: 800, margin: "0 auto" }} component={Paper}>
       <Table sx={{ margin: "0 auto" }}>
         <TableHead>

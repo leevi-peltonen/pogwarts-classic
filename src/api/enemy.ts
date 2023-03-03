@@ -1,6 +1,7 @@
 import axios from "axios"
+import { IEnemy } from "../models/enemy"
 
-const URL = process.env.REACT_APP_API_URL + "/Enemy/"
+const URL = process.env.REACT_APP_API_URL + "/Enemies/"
 
 
 export const getEnemyByID = async (enemyId: string) => {
@@ -12,5 +13,6 @@ export const getEnemyByName = async (name: string) => {
 }
 
 export const getAllEnemies = async () => {
-  return await axios.get(URL)
+  const response = await axios.get<IEnemy[]>(URL)
+  return response.data
 }
