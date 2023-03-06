@@ -89,58 +89,67 @@ function InventoryGrid(props: IInventoryGridProps) {
   // }
   
 
+
+  const handleHeal = () => {
+    setCharacter(prev => ({ ...prev, health: prev.maxHealth }))
+    alert("You have been healed!")
+  }
   
 
   return (
-    <TableContainer sx={{ maxWidth: 800, margin: "0 auto" }} component={Paper}>
-      <Table sx={{ margin: "0 auto" }}>
-        <TableHead>
-          <TableRow>
-            {/*
-            <TableCell >Name</TableCell>
-            <TableCell >Damage</TableCell>
-            <TableCell align="right">Rarity</TableCell>
-            <TableCell align="right">Price</TableCell>
-            <TableCell align="right">Description</TableCell>
-            <TableCell aligh="right">Equip</TableCell>
-            <TableCell aligh="right">Sell</TableCell>
-            */}
-            {headers.map((header, i) => {
-              return (
-                //<TableCell onClick={(event) => {isAscending ? handleDescendingSort(event.target.innerHTML) : handleAscendingSort(event.target.innerHTML) }} key={i} >{header}</TableCell>
-                <TableCell key={i}>{header}</TableCell>
-              )
-            })}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {character.inventoryWeapons && character.inventoryWeapons.map((weapon, i) => (
-            <TableRow
-              key={i}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {weapon.name}
-              </TableCell>
-              <TableCell align="right">{weapon.damage}</TableCell>
-              <TableCell align="right">{weapon.rarity}</TableCell>
-              <TableCell align="right">{weapon.price}</TableCell>
-              <TableCell align="right">{weapon.description}</TableCell>
-              <TableCell align="right">
-                <Button onClick={() => { props.handleItemEquip(weapon) }}>
-                  Equip
-                </Button>
-              </TableCell>
-              <TableCell align="right">
-                <Button onClick={() => { props.handleItemSale(weapon) }}>
-                  Sell
-                </Button>
-              </TableCell>
+    <>
+      <Button variant="contained" color="success" onClick={handleHeal} >Heal</Button>
+      <TableContainer sx={{ maxWidth: 800, margin: "0 auto" }} component={Paper}>
+        <Table sx={{ margin: "0 auto" }}>
+          <TableHead>
+            <TableRow>
+              {/*
+              <TableCell >Name</TableCell>
+              <TableCell >Damage</TableCell>
+              <TableCell align="right">Rarity</TableCell>
+              <TableCell align="right">Price</TableCell>
+              <TableCell align="right">Description</TableCell>
+              <TableCell aligh="right">Equip</TableCell>
+              <TableCell aligh="right">Sell</TableCell>
+              */}
+              {headers.map((header, i) => {
+                return (
+                  //<TableCell onClick={(event) => {isAscending ? handleDescendingSort(event.target.innerHTML) : handleAscendingSort(event.target.innerHTML) }} key={i} >{header}</TableCell>
+                  <TableCell key={i}>{header}</TableCell>
+                )
+              })}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {character.inventoryWeapons && character.inventoryWeapons.map((weapon, i) => (
+              <TableRow
+                key={i}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {weapon.name}
+                </TableCell>
+                <TableCell align="right">{weapon.damage}</TableCell>
+                <TableCell align="right">{weapon.rarity}</TableCell>
+                <TableCell align="right">{weapon.price}</TableCell>
+                <TableCell align="right">{weapon.description}</TableCell>
+                <TableCell align="right">
+                  <Button onClick={() => { props.handleItemEquip(weapon) }}>
+                    Equip
+                  </Button>
+                </TableCell>
+                <TableCell align="right">
+                  <Button onClick={() => { props.handleItemSale(weapon) }}>
+                    Sell
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      
+    </>
   )
 }
 

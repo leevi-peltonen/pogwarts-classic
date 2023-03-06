@@ -1,13 +1,12 @@
-
 import { updateHealth, updateMaxHealth, updateLevel, updateXP } from "../api/user";
-import Weapons from "../data/weapons.json"
 import { IEnemy } from "../models/enemy";
 import { ICharacter } from "../models/character";
 import { IWeapon } from "../models/weapon";
+import { XP_MULTIPLIER, PERCENTAGE_RANGE } from "./configuration";
+import { addAchievementAsync } from "../api/achievement";
 
 ///////////////////////COMBAT//////////////////////////
 
-const PERCENTAGE_RANGE = 0.2
 // calculateDamage to enemy
 export const calculateDamageToEnemy = (weapon: IWeapon | undefined) => {
 
@@ -34,32 +33,6 @@ export const chanceToHitTarget = (chancePercentage: number): boolean => {
 
 //////////////////////LOOT////////////////////////////
 
-// get random rarity affected by difficulty
-const getRarity = (difficultyFactor: number) => {
-  const rarityRoll = Math.random()
-
-  if (rarityRoll < 0.5 / difficultyFactor) {
-    return "common";
-  } else if (rarityRoll < 1 / difficultyFactor) {
-    return "uncommon";
-  } else if (rarityRoll < 2 / difficultyFactor) {
-    return "rare";
-  } else if (rarityRoll < 4 / difficultyFactor) {
-    return "epic";
-  } else {
-    return "legendary";
-  }
-}
-
-//  loot generation 
-/*
-export const generateLoot = (enemy: IEnemy): IWeapon => {
-
-  
-
-}
-*/
-
 // generate random amount of coins based on difficulty
 export const generateCoins = (difficulty: number) => {
   const amount = 1 + Math.floor(Math.random()*10)*(difficulty*2)
@@ -67,7 +40,6 @@ export const generateCoins = (difficulty: number) => {
 }
 
 //////////////////////CHARACTER/////////////////////////////
-
 
 // calculate results of a skill check
 export const performSkillCheck = (
@@ -94,16 +66,14 @@ export const levelUp = (character: ICharacter) => {
   character.health = character.maxHealth
 }
 
-
 // Level Curve
 export const getLevelExperience = (level: number) => {
   return Math.floor(100 * Math.pow(1.2, level))
 }
 
-
 // give player XP and check for level up
 export const earnXPandCheckForLevelUp = (character: ICharacter, enemyLevel: number): ICharacter => {
-  const earnedXP = enemyLevel*5;
+  const earnedXP = (enemyLevel * 5) * XP_MULTIPLIER;
   character.experience += earnedXP
   updateXP(character)
   const nextLevelXP = getLevelExperience(character.level + 1)
@@ -115,6 +85,20 @@ export const earnXPandCheckForLevelUp = (character: ICharacter, enemyLevel: numb
     updateLevel(character)
   }
   return character
-
 }
 
+export  const checkForLevelAchievements = async (character: ICharacter) => {
+  if(character.level === 2) {
+    let returnCharacter = await addAchievementAsync(character.name, 1)
+    return returnCharacter
+  }
+  if(character.level === 10) {
+    let returnCharacter = await addAchievementAsync(character.name, 2)
+    return returnCharacter
+  }
+  if(character.level === 50) {
+    let returnCharacter = await addAchievementAsync(character.name, 3)
+    return returnCharacter
+  }
+  return character
+}

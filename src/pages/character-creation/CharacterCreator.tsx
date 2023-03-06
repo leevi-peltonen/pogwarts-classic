@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import WeaponSelection from "../../components/character-creator/WeaponSelection"
 import { IUser } from "../../models/user"
 import { IWeapon } from "../../models/weapon"
-import { Button, Stack, TextField, Typography } from "@mui/material/"
+import { Button, Stack, TextField, Typography, Box, FormControl, InputLabel } from "@mui/material/"
 import { red } from "@mui/material/colors"
 import { IAttributes } from "../../models/attributes"
 import { createUser } from "../../api/login"
@@ -63,36 +63,44 @@ const CharacterCreator = (props: ICharacterCreatorProps) => {
   }
 
   return (
-    <>
-      <h2>Character Creation</h2>
-      <Stack
-        spacing={4}
-        direction="row"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <TextField variant="outlined" value={characterName} onChange={(event) =>{setCharacterName(event.target.value)}} />
-        <WeaponSelection handleChosenWeapon={handleChosenWeaponSelection} />
-        <AttributeCreator
-          handleAttributes={handleAttributes}
-          handleSetPointsRemaining={handleSetPointsRemaining}
-        />
+    <Box
+    display="flex"
+    justifyContent="center"
+    alignItems="center">
+      <Stack spacing={2}>
+        <h2>Character Creation</h2>
+        <FormControl>
+          <TextField label="Character Name" variant="outlined" sx={{width: "30%"}} value={characterName} onChange={(event) =>{setCharacterName(event.target.value)}} />
+        </FormControl>
+        <Stack
+          spacing={4}
+          direction="row"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          
+          <WeaponSelection handleChosenWeapon={handleChosenWeaponSelection} />
+          <AttributeCreator
+            handleAttributes={handleAttributes}
+            handleSetPointsRemaining={handleSetPointsRemaining}
+          />
+        </Stack>
+        <Button
+          sx={{ width: "200px", marginTop: "50px", marginBottom: "50px" }}
+          onClick={handleCharacterCreation}
+          disabled={pointsRemaining > 0}
+          variant="contained"
+        >
+          Create Character
+        </Button>
+        {pointsRemaining > 0 && (
+          <Typography color={red[800]}>
+            Please assign all points before continuing
+          </Typography>
+        )}
       </Stack>
-      <Button
-        sx={{ width: "200px", marginTop: "50px", marginBottom: "50px" }}
-        onClick={handleCharacterCreation}
-        disabled={pointsRemaining > 0}
-        variant="contained"
-      >
-        Create Character
-      </Button>
-      {pointsRemaining > 0 && (
-        <Typography color={red[800]}>
-          Please assign all points before continuing
-        </Typography>
-      )}
-    </>
+    </Box>
   )
 }
 

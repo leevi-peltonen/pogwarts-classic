@@ -6,6 +6,9 @@ import { IWeapon } from '../../models/weapon'
 import { IUser } from '../../models/user'
 import Typography from '@mui/material/Typography'
 import { ICharacterContext, CharacterContext } from '../../context/CharacterContext'
+import { generateLootableWeapon } from '../../api/items'
+import { lootWeapon } from '../../api/inventory'
+import { updateCoinsAsync } from '../../api/user'
 
 interface IShopProps {
   user: IUser,
@@ -18,11 +21,33 @@ const Shop = (props: IShopProps) => {
   const { character, setCharacter } = useContext<ICharacterContext>(CharacterContext);
 
   useEffect(() => {
-    //Axios call to get shop items
-  }, [])
 
-  const handleItemPurchase = (item: IWeapon) => {
-    
+    //Axios call to get shop items
+    async function generateShopItems() {
+      setShopItems([])
+      for(let i = 0; i<5; i++){
+        const weapon: IWeapon = await generateLootableWeapon(character.highestLevelOfKilledMonsters)
+        setShopItems((prev) => {
+          return [...prev, weapon]
+        })
+      }
+    }
+    generateShopItems()
+   
+  }, [character.highestLevelOfKilledMonsters])
+
+  const handleItemPurchase = async (weapon: IWeapon) => {
+
+    if(character.coins >= weapon.price){
+      const updatedCharacter = await lootWeapon(weapon, character.name)
+
+      updatedCharacter.coins = updatedCharacter.coins - weapon.price
+      updateCoinsAsync(character.name, updatedCharacter.coins)
+      setCharacter(updatedCharacter)
+      setShopItems(prev => prev.filter(item => item.name !== weapon.name))
+    } else {
+      alert("You don't have enough coins to buy this item")
+    }
   }
 
   return (

@@ -12,7 +12,7 @@ const MessageContainer = ({ messages }: IMessageContainerProps) => {
       <Stack spacing={2} direction="column-reverse">
         {messages.map((message: IMessage, i: number) => {
           return (
-            <p>
+            <p key={i}>
               {message.character}: {message.message}
             </p>
           )

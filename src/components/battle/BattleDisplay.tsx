@@ -49,6 +49,9 @@ const BattleDisplay = (props: IBattleDisplayProps) => {
 
   return (
     <>
+    {character.health < 0 ?
+    <Typography variant="h3" >Oh dear, you are dead!</Typography> 
+    : <>
       <TableContainer sx={{ maxWidth: 800, margin: "0 auto" }} component={Paper}>
         <Table>
           <TableHead>
@@ -83,6 +86,7 @@ const BattleDisplay = (props: IBattleDisplayProps) => {
           </TableBody>
         </Table>
       </TableContainer>
+      </>}
       {!enemies && <Typography>Loading...</Typography>}
     </>
   )

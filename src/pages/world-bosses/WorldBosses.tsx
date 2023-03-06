@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import BossLobby from "../../components/world-bosses/BossLobby"
 import { IBoss } from "../../models/enemy"
 import {
@@ -20,7 +20,7 @@ export interface IMessage {
   message: string
 }
 
-// Available boss lobbies
+
 const WorldBosses = () => {
   const { character, setCharacter } =
     useContext<ICharacterContext>(CharacterContext)
@@ -33,6 +33,9 @@ const WorldBosses = () => {
   const [turnNumber, setTurnNumber] = useState(0)
   const [isPlayerTurn, setIsPlayerTurn] = useState(true)
   const [isCharacterAlive, setIsCharacterAlive] = useState(true)
+
+
+
 
   const handleJoinRoom = async (characterName: string, lobbyName: string) => {
     try {
@@ -114,7 +117,6 @@ const WorldBosses = () => {
             }
           })
           if(character.health <= 0  ) {
-            setIsCharacterAlive(false)
             connection.invoke("LeaveLobby", character.name)
           }
         }
@@ -126,11 +128,11 @@ const WorldBosses = () => {
           ...messages,
           { character: characterName, message: `has died` },
         ])
+        setIsCharacterAlive(false)
       })
 
       
     connection.on("StartNextTurn", () => {
-      // Reset the UI for the new turn
       if(isCharacterAlive) {
         setIsPlayerTurn(true);
 
@@ -202,24 +204,23 @@ const WorldBosses = () => {
     if (boss) connection?.invoke("PlayerReady", character.name, boss.name)
   }
 
-  const handlePlayerAttack = () => {
-    connection?.invoke(
-      "PlayerAttack",
-      boss,
-      character.name,
-      calculateDamageToEnemy(character.equippedWeapon)
-    )
-  }
-
   const handleAttackBoss = () => {
     if(boss) connection?.invoke("AttackBoss", character.name, boss.name, calculateDamageToEnemy(character.equippedWeapon), boss)
     if(boss) connection?.invoke("PlayerActionCompleted", boss.name)
     setIsPlayerTurn(false)
   }
 
+
+  useEffect(() => {
+    return () => {
+      closeConnection()
+    }
+  }, [])
+
+
   return (
     <Box display="flex" justifyContent="center" alignItems="center">
-      {!connection ? (
+      {!connection && isCharacterAlive ? (
         <>
           <BossLobby
             boss={"Malakar the Dark Lord"}

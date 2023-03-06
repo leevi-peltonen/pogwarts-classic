@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Beginner's Luck",
+    "description": "Level up for the first time",
+    "isUnlocked": false,
+    "isHidden": false,
+    "reward": 10
+  },
+  {
+    "id": 2,
+    "name": "Challenge Accepted",
+    "description": "Reach level 10",
+    "isUnlocked": false,
+    "isHidden": true,
+    "reward": 100
+  },
+  {
+    "id": 3,
+    "name": "High Scorer",
+    "description": "Reach level 50",
+    "isUnlocked": false,
+    "isHidden": false,
+    "reward": 500
+  }
+]

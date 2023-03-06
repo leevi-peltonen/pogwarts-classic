@@ -5,6 +5,7 @@ import { LocationContext, ILocationContext } from '../../context/LocationContext
 import { CharacterContext, ICharacterContext } from '../../context/CharacterContext';
 import { ILocation } from '../../models/location';
 import Typography from '@mui/material/Typography';
+import { MAP_SEED } from '../../utils/configuration';
 
 const seedrandom = require('seedrandom');
 
@@ -26,7 +27,7 @@ interface BoardCell {
 const board: BoardCell[] = [];
 for (let row = 0; row < numRows; row++) {
   for (let col = 0; col < numCols; col++) {
-    const type = calculateTileType(row * numCols + col);
+    const type = calculateTileType((row * numCols + col) * MAP_SEED);
     board.push({ row, col, type });
   }
 }
@@ -37,7 +38,6 @@ function calculateTileType(seed: number): 'Forest' | 'Mountain' | 'Plains' | 'Wa
   
   // generate random number between 0 and 1
   const rand = prng();
-  console.log(rand)
   // use random number to determine tile type
   if (rand < 0.4) {
     return 'Forest';
@@ -60,6 +60,12 @@ const Map = () => {
     }
   };
   
+  window.addEventListener("keydown", function(e) {
+    if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+        e.preventDefault();
+    }
+}, false);
+
   const { location, setLocation } = useContext<ILocationContext>(LocationContext);
   const { character, setCharacter } = useContext<ICharacterContext>(CharacterContext);
   const [characterPosition, setCharacterPosition] = useState<ILocation>(location)

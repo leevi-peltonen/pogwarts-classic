@@ -1,35 +1,20 @@
-import React, { useContext, Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { createUser, getUserByName } from '../../api/login';
+import { getUserByName } from '../../api/login';
 //import { PlayerContext, IPlayerContext } from '../../context/PlayerContext';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { IUserRegister } from '../../models/userRegister';
 import { IUser } from '../../models/user';
-
-// function Copyright(props) {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//       {'Copyright © '}
-//       <Link color="inherit">
-//         Pogwarts
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
 
 const theme = createTheme();
 
@@ -47,19 +32,6 @@ export default function SignUp(props: ISignUpProps) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    /*
-    const temp = new FormData(event.currentTarget);
-    let user: IUserRegister = {} as IUserRegister;
-    if (temp.get('username') !== null) {
-       user = {
-         username: temp.get('username') as string,
-         password: temp.get('password') as string,
-         repeatPassword: temp.get('repeat-password') as string
-       };
-
-    }
-    */
-
     const data = new FormData(event.currentTarget)
     const dataPairs = Array.from(data.entries())
     const user: IUserRegister = {} as IUserRegister
@@ -81,9 +53,8 @@ export default function SignUp(props: ISignUpProps) {
       return
     }
 
-    // Check if username exists
+    //TODO Check if username exists. Func exists already
     
-
       props.setNewPassword(user.password)
       props.setNewName(user.name)
       props.handleRegister(user.name, user.password, user.repeatPassword)
@@ -101,9 +72,6 @@ export default function SignUp(props: ISignUpProps) {
     }
   }
   
-
-
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

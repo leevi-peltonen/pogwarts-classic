@@ -9,6 +9,7 @@ import { updateCoinsAsync } from '../../api/user'
 import { generateLootableWeapon } from '../../api/items'
 import { CharacterContext, ICharacterContext } from '../../context/CharacterContext'
 import { lootWeapon } from '../../api/inventory'
+import { WEAPON_CHANCE } from '../../utils/configuration'
 
 interface ILootProps {
   user: IUser,
@@ -25,7 +26,7 @@ const Loot = (props: ILootProps) => {
       const lootWeapon: IWeapon = await generateLootableWeapon(props.enemy.level)
 
       const rollForWeapon = Math.floor(Math.random() * 100)
-      if(rollForWeapon < 10) {
+      if(rollForWeapon < WEAPON_CHANCE) {
         setLootWeapon(lootWeapon)
       }
     }
@@ -70,18 +71,8 @@ const LootBox = (props: ILootBoxProps) => {
   const handlePickUpItem = async () => {
 
     if(props.lootWeapon) {
-      /*
-      const updatedCharacter = {...character}
-      if(updatedCharacter.inventoryWeapons == null) {
-        updatedCharacter.inventoryWeapons = []
-      }
-      updatedCharacter.inventoryWeapons.push(props.lootWeapon)
-      setCharacter(updatedCharacter)
-      */
-     // TODO: Axios call to add weapon to inventory. From response: update character context
       const updatedCharacter = await lootWeapon(props.lootWeapon, character.name)
       setCharacter(updatedCharacter)
-      
     }
     if(props.coins) {
       const updatedCharacter = {...character}

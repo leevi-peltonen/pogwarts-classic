@@ -16,5 +16,6 @@ export interface ICharacter {
   inventoryWeapons?: IWeapon[],
   inventoryArmor?: IArmor[],
   equippedWeapon?: IWeapon,
-  equippedArmor?: IArmor
+  equippedArmor?: IArmor,
+  achievements: number[]
 }

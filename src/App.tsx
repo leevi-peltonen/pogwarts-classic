@@ -56,6 +56,8 @@ export default function App() {
     window.localStorage.setItem("loggedPlayer", JSON.stringify(returnedUser));
     setUser(returnedUser);
     navigate('/');
+    setName('');
+    setPassword('');
   }
 
   const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
@@ -65,7 +67,6 @@ export default function App() {
     setCharacter({} as ICharacter)
     navigate('/')
   }
-
 
   const handleRegister = async (name: string, password:string, repeatPassword: string) => {
     const userToCreate: IUserRegister = {
@@ -79,11 +80,8 @@ export default function App() {
     window.localStorage.setItem('loggedPlayer', JSON.stringify(returnedUser))
     setUser(returnedUser.data);
     navigate('/')
-  }
-
-  const handleCharacterSelection = (): ICharacter => {
-    // TODO: character selection. Current is a placeholder
-    return user.characters[0]
+    setNewName('')
+    setNewPassword('')
   }
 
   return (
